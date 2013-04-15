@@ -172,36 +172,6 @@ namespace TreeEditor
             this.textHistory = new TextHistory();
 
             this.scrollbar = new Scrollbar();
-            this.scrollbar.OnVScrollAction = (object sender, EventArgs e, int pos, int movement) =>
-            {
-                //━━━━━
-                // ここでは、コントロールのプロパティーへの変更が正常には利きません。
-                //━━━━━
-
-                if (0 != movement)
-                {
-                    //ystem.Console.WriteLine("★UiTextside 垂直1 movement=" + movement + " this.ImageMovement（" + this.ImageMovement.X + "、" + this.ImageMovement.Y + "）");
-                    this.ImageMovement = new Point(
-                        this.ImageMovement.X,
-                        this.ImageMovement.Y - movement
-                        );
-                    //ystem.Console.WriteLine("★UiTextside 垂直2 this.ImageMovement（" + this.ImageMovement.X + "、" + this.ImageMovement.Y + "）");
-                }
-            };
-            this.scrollbar.OnHScrollAction = (object sender, EventArgs e, int pos, int movement) =>
-            {
-                //━━━━━
-                // ここでは、コントロールのプロパティーへの変更が正常には利きません。
-                //━━━━━
-
-                if (0 != movement)
-                {
-                    this.ImageMovement = new Point(
-                        this.ImageMovement.X - movement,
-                        this.ImageMovement.Y
-                        );
-                }
-            };
         }
 
         private void FitSize()
@@ -218,6 +188,41 @@ namespace TreeEditor
         private void UiTextside_Load(object sender, EventArgs e)
         {
             this.FitSize();
+
+
+            //━━━━━
+            // スクロールバー
+            //━━━━━
+            this.scrollbar.OnVScrollAction = (object sender2, EventArgs e2, int pos, int movement) =>
+            {
+                //━━━━━
+                // ※ここでは、コントロールのプロパティーへの変更が正常には利きません。
+                //━━━━━
+
+                if (0 != movement)
+                {
+                    //ystem.Console.WriteLine("★UiTextside 垂直1 movement=" + movement + " this.ImageMovement（" + this.ImageMovement.X + "、" + this.ImageMovement.Y + "）");
+                    this.ImageMovement = new Point(
+                        this.ImageMovement.X,
+                        this.ImageMovement.Y - movement
+                        );
+                    //ystem.Console.WriteLine("★UiTextside 垂直2 this.ImageMovement（" + this.ImageMovement.X + "、" + this.ImageMovement.Y + "）");
+                }
+            };
+            this.scrollbar.OnHScrollAction = (object sender2, EventArgs e2, int pos, int movement) =>
+            {
+                //━━━━━
+                // ※ここでは、コントロールのプロパティーへの変更が正常には利きません。
+                //━━━━━
+
+                if (0 != movement)
+                {
+                    this.ImageMovement = new Point(
+                        this.ImageMovement.X - movement,
+                        this.ImageMovement.Y
+                        );
+                }
+            };
 
 
             //━━━━━
@@ -297,7 +302,7 @@ namespace TreeEditor
             uiMain.TestChangeText();
 
             // 改行コードが違っても、文字が同じなら、変更なしと判定します。
-            string text1 = uiMain.FileText.Replace("\r", "").Replace("\n", "");
+            string text1 = uiMain.NodeFileText.Replace("\r", "").Replace("\n", "");
             string text2 = this.richTextBox1.Text.Replace("\r", "").Replace("\n", "");
 
             uiMain.IsChangedText = text1.CompareTo(text2)!=0;

@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             TreeEditor.Scrollbar scrollbar1 = new TreeEditor.Scrollbar();
-            TreeEditor.TextHistory textHistory1 = new TreeEditor.TextHistory();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UiMain));
+            TreeEditor.TextHistory textHistory1 = new TreeEditor.TextHistory();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.uiTextside1 = new TreeEditor.UiTextside();
@@ -43,7 +43,11 @@
             this.toolStripButton23 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton24 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton25 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton34 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton32 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton33 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton26 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton27 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton28 = new System.Windows.Forms.ToolStripButton();
@@ -52,10 +56,6 @@
             this.toolStripButton30 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton31 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton32 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton33 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton34 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton35 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton36 = new System.Windows.Forms.ToolStripButton();
@@ -137,10 +137,14 @@
             // 
             // treeView1
             // 
+            this.treeView1.AllowDrop = true;
             this.treeView1.Location = new System.Drawing.Point(3, 3);
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(197, 461);
             this.treeView1.TabIndex = 0;
+            this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
+            this.treeView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView1_DragDrop);
+            this.treeView1.DragOver += new System.Windows.Forms.DragEventHandler(this.treeView1_DragOver);
             this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
             // 
             // uiTextside1
@@ -152,8 +156,6 @@
             this.uiTextside1.IsAutoinputTextareaText = false;
             this.uiTextside1.Location = new System.Drawing.Point(3, 3);
             this.uiTextside1.Name = "uiTextside1";
-            scrollbar1.OnHScrollAction = null;
-            scrollbar1.OnVScrollAction = null;
             this.uiTextside1.Scrollbar = scrollbar1;
             this.uiTextside1.Size = new System.Drawing.Size(542, 446);
             this.uiTextside1.TabIndex = 0;
@@ -212,7 +214,11 @@
             this.toolStripButton23,
             this.toolStripButton24,
             this.toolStripButton25,
+            this.toolStripButton34,
             this.toolStripSeparator8,
+            this.toolStripButton32,
+            this.toolStripButton33,
+            this.toolStripSeparator11,
             this.toolStripButton26,
             this.toolStripButton27,
             this.toolStripButton28,
@@ -221,10 +227,6 @@
             this.toolStripButton30,
             this.toolStripButton31,
             this.toolStripSeparator10,
-            this.toolStripButton32,
-            this.toolStripButton33,
-            this.toolStripSeparator11,
-            this.toolStripButton34,
             this.toolStripSeparator12,
             this.toolStripButton35,
             this.toolStripButton36,
@@ -281,10 +283,49 @@
             this.toolStripButton25.Text = "toolStripButton25";
             this.toolStripButton25.ToolTipText = "子ノード作成";
             // 
+            // toolStripButton34
+            // 
+            this.toolStripButton34.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton34.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton34.Image")));
+            this.toolStripButton34.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton34.Name = "toolStripButton34";
+            this.toolStripButton34.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton34.Text = "toolStripButton34";
+            this.toolStripButton34.ToolTipText = "ノード削除";
+            this.toolStripButton34.Click += new System.EventHandler(this.toolStripButton34_Click);
+            // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
             this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton32
+            // 
+            this.toolStripButton32.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton32.Enabled = false;
+            this.toolStripButton32.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton32.Image")));
+            this.toolStripButton32.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton32.Name = "toolStripButton32";
+            this.toolStripButton32.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton32.Text = "toolStripButton32";
+            this.toolStripButton32.ToolTipText = "ノードアイコン変更";
+            this.toolStripButton32.Click += new System.EventHandler(this.toolStripButton32_Click);
+            // 
+            // toolStripButton33
+            // 
+            this.toolStripButton33.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton33.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton33.Image")));
+            this.toolStripButton33.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton33.Name = "toolStripButton33";
+            this.toolStripButton33.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton33.Text = "toolStripButton33";
+            this.toolStripButton33.ToolTipText = "ノード色変更";
+            this.toolStripButton33.Click += new System.EventHandler(this.toolStripButton33_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButton26
             // 
@@ -361,44 +402,6 @@
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
             this.toolStripSeparator10.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton32
-            // 
-            this.toolStripButton32.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton32.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton32.Image")));
-            this.toolStripButton32.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton32.Name = "toolStripButton32";
-            this.toolStripButton32.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton32.Text = "toolStripButton32";
-            this.toolStripButton32.ToolTipText = "ノードアイコン変更";
-            this.toolStripButton32.Click += new System.EventHandler(this.toolStripButton32_Click);
-            // 
-            // toolStripButton33
-            // 
-            this.toolStripButton33.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton33.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton33.Image")));
-            this.toolStripButton33.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton33.Name = "toolStripButton33";
-            this.toolStripButton33.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton33.Text = "toolStripButton33";
-            this.toolStripButton33.ToolTipText = "ノード色変更";
-            this.toolStripButton33.Click += new System.EventHandler(this.toolStripButton33_Click);
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton34
-            // 
-            this.toolStripButton34.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton34.Enabled = false;
-            this.toolStripButton34.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton34.Image")));
-            this.toolStripButton34.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton34.Name = "toolStripButton34";
-            this.toolStripButton34.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton34.Text = "toolStripButton34";
-            this.toolStripButton34.ToolTipText = "ノード削除";
             // 
             // toolStripSeparator12
             // 

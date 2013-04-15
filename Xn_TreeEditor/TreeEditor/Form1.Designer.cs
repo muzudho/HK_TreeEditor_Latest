@@ -982,8 +982,8 @@
             // uiMain1
             // 
             this.uiMain1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.uiMain1.TextFilePath = null;
-            this.uiMain1.FileText = null;
+            this.uiMain1.NodeFilePath = null;
+            this.uiMain1.NodeFileText = null;
             this.uiMain1.IsChangedText = false;
             this.uiMain1.Location = new System.Drawing.Point(0, 22);
             this.uiMain1.Name = "uiMain1";

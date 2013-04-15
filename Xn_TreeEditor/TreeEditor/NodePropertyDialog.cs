@@ -26,180 +26,49 @@ namespace TreeEditor
         /// <summary>
         /// 色サンプル
         /// </summary>
-        public string SampleText
+        public string NodeNameText
         {
             get
             {
-                return this.sampleLbl.Text;
+                return this.nodeNameTxt.Text;
             }
             set
             {
-                this.sampleLbl.Text = value;
+                this.nodeNameTxt.Text = value;
             }
         }
 
         /// <summary>
-        /// 変更前の前景の赤
+        /// 変更前の前景色
         /// </summary>
-        private int preForeRed;
-        public int PreForeRed
+        private ColorNumber preFore;
+        public ColorNumber PreFore
         {
             get
             {
-                int n = preForeRed;
-
-                if (n < 0)
-                {
-                    n = 0;
-                }
-                else if (255 < n)
-                {
-                    n = 255;
-                }
-
-                return n;
+                return preFore;
             }
             set
             {
-                preForeRed = value;
+                preFore = value;
             }
         }
 
         /// <summary>
-        /// 変更前の前景の緑
+        /// 変更前の後景色
         /// </summary>
-        private int preForeGreen;
-        public int PreForeGreen
+        private ColorNumber preBack;
+        public ColorNumber PreBack
         {
             get
             {
-                int n = preForeGreen;
-
-                if (n < 0)
-                {
-                    n = 0;
-                }
-                else if (255 < n)
-                {
-                    n = 255;
-                }
-
-                return n;
+                return preBack;
             }
             set
             {
-                preForeGreen = value;
+                preBack = value;
             }
         }
-
-        /// <summary>
-        /// 変更前の前景の青
-        /// </summary>
-        private int preForeBlue;
-        public int PreForeBlue
-        {
-            get
-            {
-                int n = preForeBlue;
-
-                if (n < 0)
-                {
-                    n = 0;
-                }
-                else if (255 < n)
-                {
-                    n = 255;
-                }
-
-                return n;
-            }
-            set
-            {
-                preForeBlue = value;
-            }
-        }
-
-        /// <summary>
-        /// 変更前の後景の赤
-        /// </summary>
-        private int preBackRed;
-        public int PreBackRed
-        {
-            get
-            {
-                int n = preBackRed;
-
-                if (n < 0)
-                {
-                    n = 0;
-                }
-                else if (255 < n)
-                {
-                    n = 255;
-                }
-
-                return n;
-            }
-            set
-            {
-                preBackRed = value;
-            }
-        }
-
-        /// <summary>
-        /// 変更前の後景の緑
-        /// </summary>
-        private int preBackGreen;
-        public int PreBackGreen
-        {
-            get
-            {
-                int n = preBackGreen;
-
-                if (n < 0)
-                {
-                    n = 0;
-                }
-                else if (255 < n)
-                {
-                    n = 255;
-                }
-
-                return n;
-            }
-            set
-            {
-                preBackGreen = value;
-            }
-        }
-
-        /// <summary>
-        /// 変更前の後景の青
-        /// </summary>
-        private int preBackBlue;
-        public int PreBackBlue
-        {
-            get
-            {
-                int n = preBackBlue;
-
-                if (n < 0)
-                {
-                    n = 0;
-                }
-                else if (255 < n)
-                {
-                    n = 255;
-                }
-
-                return n;
-            }
-            set
-            {
-                preBackBlue = value;
-            }
-        }
-
 
 
 
@@ -433,16 +302,19 @@ namespace TreeEditor
         public NodePropertyDialog()
         {
             InitializeComponent();
+
+            this.PreFore = new ColorNumber();
+            this.PreBack = new ColorNumber();
         }
 
         private void NodeColorDialog_Load(object sender, EventArgs e)
         {
-            this.PreForeRed = this.ForeRed;
-            this.PreForeGreen = this.ForeGreen;
-            this.PreForeBlue = this.ForeBlue;
-            this.PreBackRed = this.BackRed;
-            this.PreBackGreen = this.BackGreen;
-            this.PreBackBlue = this.BackBlue;
+            this.PreFore.Red = this.ForeRed;
+            this.PreFore.Green = this.ForeGreen;
+            this.PreFore.Blue = this.ForeBlue;
+            this.PreBack.Red = this.BackRed;
+            this.PreBack.Green = this.BackGreen;
+            this.PreBack.Blue = this.BackBlue;
             this.PreSelectedImageIndex = this.SelectedImageIndex;
             //ystem.Console.WriteLine("★NodeColorDialog_Load　this.ForeBlue=" + this.ForeBlue + "　this.BackBlue=" + this.BackBlue);
 
@@ -471,19 +343,19 @@ namespace TreeEditor
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            this.ForeRed = this.PreForeRed;
-            this.ForeGreen = this.PreForeGreen;
-            this.ForeBlue = this.PreForeBlue;
-            this.BackRed = this.PreBackRed;
-            this.BackGreen = this.PreBackGreen;
-            this.BackBlue = this.PreBackBlue;
+            this.ForeRed = this.PreFore.Red;
+            this.ForeGreen = this.PreFore.Green;
+            this.ForeBlue = this.PreFore.Blue;
+            this.BackRed = this.PreBack.Red;
+            this.BackGreen = this.PreBack.Green;
+            this.BackBlue = this.PreBack.Blue;
             this.SelectedImageIndex = this.PreSelectedImageIndex;
         }
 
-        private void RefreshSample()
+        private void RefreshNodeName()
         {
-            this.sampleLbl.ForeColor = Color.FromArgb(255, this.ForeRed, this.ForeGreen, this.ForeBlue);
-            this.sampleLbl.BackColor = Color.FromArgb(255, this.BackRed, this.BackGreen, this.BackBlue);
+            this.nodeNameTxt.ForeColor = Color.FromArgb(255, this.ForeRed, this.ForeGreen, this.ForeBlue);
+            this.nodeNameTxt.BackColor = Color.FromArgb(255, this.BackRed, this.BackGreen, this.BackBlue);
         }
 
         private void RgbToWeb()
@@ -517,58 +389,20 @@ namespace TreeEditor
         {
             //前景色
             {
-                string s = this.ForeWeb;
-
-                if (!s.StartsWith("#"))
-                {
-
-                }
-                else if(s.Length==7)
-                {
-                    string r = s.Substring(1, 2);
-                    string g = s.Substring(3, 2);
-                    string b = s.Substring(5, 2);
-                    this.ForeRed = Convert.ToInt32(r, 16);
-                    this.ForeGreen = Convert.ToInt32(g, 16);
-                    this.ForeBlue = Convert.ToInt32(b, 16);
-                }
-                else if (s.Length == 4)
-                {
-                    string r = s.Substring(1, 1);
-                    string g = s.Substring(2, 1);
-                    string b = s.Substring(3, 1);
-                    this.ForeRed = Convert.ToInt32(r, 16);
-                    this.ForeGreen = Convert.ToInt32(g, 16);
-                    this.ForeBlue = Convert.ToInt32(b, 16);
-                }
+                ColorNumber cn = new ColorNumber();
+                cn.Web = this.ForeWeb;
+                this.ForeRed = cn.Red;
+                this.ForeGreen = cn.Green;
+                this.ForeBlue = cn.Blue;
             }
 
             //後景色
             {
-                string s = this.BackWeb;
-
-                if (!s.StartsWith("#"))
-                {
-
-                }
-                else if (s.Length == 7)
-                {
-                    string r = s.Substring(1, 2);
-                    string g = s.Substring(3, 2);
-                    string b = s.Substring(5, 2);
-                    this.BackRed = Convert.ToInt32(r, 16);
-                    this.BackGreen = Convert.ToInt32(g, 16);
-                    this.BackBlue = Convert.ToInt32(b, 16);
-                }
-                else if (s.Length == 4)
-                {
-                    string r = s.Substring(1, 1);
-                    string g = s.Substring(2, 1);
-                    string b = s.Substring(3, 1);
-                    this.BackRed = Convert.ToInt32(r, 16);
-                    this.BackGreen = Convert.ToInt32(g, 16);
-                    this.BackBlue = Convert.ToInt32(b, 16);
-                }
+                ColorNumber cn = new ColorNumber();
+                cn.Web = this.BackWeb;
+                this.BackRed = cn.Red;
+                this.BackGreen = cn.Green;
+                this.BackBlue = cn.Blue;
             }
         }
 
@@ -580,7 +414,7 @@ namespace TreeEditor
                 this.RgbToWeb();
                 this.autoInputWeb = false;
 
-                this.RefreshSample();
+                this.RefreshNodeName();
             }
         }
 
@@ -592,7 +426,7 @@ namespace TreeEditor
                 this.RgbToWeb();
                 this.autoInputWeb = false;
 
-                this.RefreshSample();
+                this.RefreshNodeName();
             }
         }
 
@@ -604,7 +438,7 @@ namespace TreeEditor
                 this.RgbToWeb();
                 this.autoInputWeb = false;
 
-                this.RefreshSample();
+                this.RefreshNodeName();
             }
         }
 
@@ -616,7 +450,7 @@ namespace TreeEditor
                 this.RgbToWeb();
                 this.autoInputWeb = false;
 
-                this.RefreshSample();
+                this.RefreshNodeName();
             }
         }
 
@@ -628,7 +462,7 @@ namespace TreeEditor
                 this.RgbToWeb();
                 this.autoInputWeb = false;
 
-                this.RefreshSample();
+                this.RefreshNodeName();
             }
         }
 
@@ -640,7 +474,7 @@ namespace TreeEditor
                 this.RgbToWeb();
                 this.autoInputWeb = false;
 
-                this.RefreshSample();
+                this.RefreshNodeName();
             }
         }
 
@@ -652,7 +486,7 @@ namespace TreeEditor
                 this.WebToRgb();
                 this.autoInputRgb = false;
 
-                this.RefreshSample();
+                this.RefreshNodeName();
             }
         }
 
@@ -664,7 +498,7 @@ namespace TreeEditor
                 this.WebToRgb();
                 this.autoInputRgb = false;
 
-                this.RefreshSample();
+                this.RefreshNodeName();
             }
         }
 
@@ -682,6 +516,37 @@ namespace TreeEditor
                 this.pictureBox1.ImageLocation = file;
                 this.pictureBox1.Refresh();
             }
+        }
+
+        private void nodeNameTxt_TextChanged(object sender, EventArgs e)
+        {
+            if (this.Owner is Form1)
+            {
+                Form1 form1 = (Form1)this.Owner;
+
+                bool duplicate = false;
+                TextBox txt = (TextBox)sender;
+                foreach (TreeNode tn in form1.UiMain1.TreeView1.Nodes)
+                {
+                    if (tn.Text == txt.Text)
+                    {
+                        //重複する場合。
+                        duplicate = true;
+                    }
+                }
+
+                if (duplicate)
+                {
+                    this.nameCommentLbl.ForeColor = Color.Black;
+                    this.nameCommentLbl.Text = "既にあるノードの名前です。";
+                }
+                else
+                {
+                    this.nameCommentLbl.ForeColor = Color.Red;
+                    this.nameCommentLbl.Text = "ノード名を変更します。";
+                }
+            }
+
         }
     }
 }

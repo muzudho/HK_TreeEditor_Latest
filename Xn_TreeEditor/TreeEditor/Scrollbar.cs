@@ -20,34 +20,12 @@ namespace TreeEditor
         /// 前回のx位置。
         /// </summary>
         private int preX;
-        //public int PreX
-        //{
-        //    get
-        //    {
-        //        return preX;
-        //    }
-        //    set
-        //    {
-        //        preX = value;
-        //    }
-        //}
 
 
         /// <summary>
         /// 前回のy位置。
         /// </summary>
         private int preY;
-        //public int PreY
-        //{
-        //    get
-        //    {
-        //        return preY;
-        //    }
-        //    set
-        //    {
-        //        preY = value;
-        //    }
-        //}
 
 
 
