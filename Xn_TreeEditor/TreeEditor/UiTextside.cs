@@ -139,7 +139,7 @@ namespace TreeEditor
             //━━━━━
             //テキスト
             //━━━━━
-            this.ToolStripTextBox1.Text = "";
+            this.NodeNameTxt1.Text = "";
             this.TextareaText = "";
 
             //━━━━━
@@ -266,7 +266,7 @@ namespace TreeEditor
         /// <summary>
         /// ノード名を入れるテキストボックスです。
         /// </summary>
-        public ToolStripTextBox ToolStripTextBox1
+        public ToolStripTextBox NodeNameTxt1
         {
             get
             {

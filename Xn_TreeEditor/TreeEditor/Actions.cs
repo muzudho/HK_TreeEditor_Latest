@@ -82,7 +82,7 @@ namespace TreeEditor
 
         }
 
-        public static void Load(Form1 form1,string textFilePath, string csvFilePath)
+        public static void Load(Form1 form1,string textFilePath, string resourceCsvFilePath)
         {
             Log_Method log_Method = new Log_MethodImpl();
             Log_ReportsImpl log_Reports = new Log_ReportsImpl(log_Method);
@@ -98,7 +98,7 @@ namespace TreeEditor
                     {
                         string text = File.ReadAllText(textFilePath, Encoding.GetEncoding("Shift_JIS"));
                         form1.UiMain1.TextFilePath = textFilePath;
-                        form1.UiMain1.CsvFilePath = csvFilePath;
+                        form1.UiMain1.CsvFilePath = resourceCsvFilePath;
                         form1.UiMain1.FileText = text;
                         form1.UiMain1.UiTextside1.TextareaText = text;
                     }
@@ -108,15 +108,15 @@ namespace TreeEditor
                     //画像情報読取り
                     //━━━━━
                     {
-                        if (File.Exists(csvFilePath))
+                        if (File.Exists(resourceCsvFilePath))
                         {
                             try
                             {
-                                string text = File.ReadAllText(csvFilePath, Encoding.GetEncoding("Shift_JIS"));
+                                string text = File.ReadAllText(resourceCsvFilePath, Encoding.GetEncoding("Shift_JIS"));
 
                                 CsvTo_TableImpl csvTo = new CsvTo_TableImpl();
                                 Request_ReadsTableImpl request = new Request_ReadsTableImpl();
-                                //request.Name_PutToTable = @"save\"+this.ProjectName+"\TREE.csv";
+                                //request.Name_PutToTable = resourceCsvFilePath;
                                 Format_TableImpl format = new Format_TableImpl();
                                 Table_Humaninput table = csvTo.Read(
                                     text,
@@ -126,10 +126,8 @@ namespace TreeEditor
                                     );
                                 if (log_Reports.Successful)
                                 {
-                                    System.Console.WriteLine("★CSV読込完了");
+                                    System.Console.WriteLine("★CSV読込完了 [" + resourceCsvFilePath + "]");
 
-                                    List<TreeNode> treeNodeList = new List<TreeNode>();
-                                    treeNodeList.Add(null);//[0]はヌル。
                                     table.ForEach_Datapart(delegate(Record_Humaninput recordH, ref bool isBreak2, Log_Reports log_Reports2)
                                     {
                                         string no = recordH.TextAt("NO");
@@ -169,7 +167,7 @@ namespace TreeEditor
                         }
                         else
                         {
-                            System.Console.WriteLine("★失敗：Tree.csvがない。");
+                            System.Console.WriteLine("★失敗：リソースCSV[" + resourceCsvFilePath + "]がない。");
                         }
                     }
 
@@ -189,12 +187,90 @@ namespace TreeEditor
             }
         }
 
+        /// <summary>
+        /// 再帰関数
+        /// </summary>
+        public static void RecursiveTree(Form1 form1, int autoNum, int tree, TreeNode tn, StringBuilder sb)
+        {
+            tree++;
+            foreach (TreeNode tn2 in tn.Nodes)
+            {
+                string foreColorWeb = "#000000";
+                string backColorWeb = "#FFFFFF";
+
+                if (tn2 is TreeNode2)
+                {
+                    TreeNode2 tn3 = (TreeNode2)tn2;
+                    foreColorWeb = tn3.Fore.Web;
+                    backColorWeb = tn3.Back.Web;
+                }
+
+
+                sb.Append(autoNum + ",," + tree + "," + tn2.SelectedImageIndex + "," + tn2.Text + "," + tn2.Text + ".txt," + foreColorWeb + "," + backColorWeb + ",");
+                sb.Append(Environment.NewLine);
+                autoNum++;
+
+                Actions.RecursiveTree(form1, autoNum, tree, tn2, sb);
+            }
+            tree--;
+        }
+
         public static void Save(Form1 form1)
         {
             if (File.Exists(form1.UiMain1.TextFilePath))
             {
                 try
                 {
+                    //━━━━━
+                    //ツリー書出し
+                    //━━━━━
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        int autoNum = 0;
+
+                        sb.Append("NO,EXPL,TREE,ICON,NAME,FILE,FORE_COLOR,BACK_COLOR,EOL");
+                        sb.Append(Environment.NewLine);
+
+                        sb.Append("int,string,int,int,string,string,string,string,");
+                        sb.Append(Environment.NewLine);
+
+                        sb.Append("自動連番,コメント,ツリー階層,,,廃止方針,前景色,背景色,");
+                        sb.Append(Environment.NewLine);
+
+                        int tree=1;
+                        foreach (TreeNode tn in form1.UiMain1.TreeView1.Nodes)
+                        {
+                            string foreColorWeb = "#000000";
+                            string backColorWeb = "#FFFFFF";
+
+                            if (tn is TreeNode2)
+                            {
+                                TreeNode2 tn2 = (TreeNode2)tn;
+
+                                foreColorWeb = tn2.Fore.Web;
+                                backColorWeb = tn2.Back.Web;
+                            }
+
+                            sb.Append(autoNum + ",," + tree + "," + tn.SelectedImageIndex + "," + tn.Text + "," + tn.Text + ".txt," + foreColorWeb + "," + backColorWeb + ",");
+                            sb.Append(Environment.NewLine);
+                            autoNum++;
+
+                            Actions.RecursiveTree(form1, autoNum, tree, tn, sb);
+                        }
+
+                        sb.Append("EOF,,,,,,,,");
+                        sb.Append(Environment.NewLine);
+
+                        System.Console.WriteLine("ツリー書出し："+sb.ToString());
+
+                        File.WriteAllText(
+                            form1.UiMain1.GetTreeCsvFileName(form1.UiMain1.ProjectName, false),
+                            sb.ToString(),
+                            Encoding.GetEncoding("Shift_JIS")
+                            );
+                    }
+
+
                     //━━━━━
                     //テキスト書出し
                     //━━━━━
@@ -228,9 +304,9 @@ namespace TreeEditor
 
                                 //ファイルパス
                                 string fp = pic.ImageLocation;
-                                if (fp.StartsWith(Application.StartupPath+@"\"))
+                                if (fp.StartsWith(Application.StartupPath + @"\"))
                                 {
-                                    fp = fp.Substring(Application.StartupPath.Length+@"\".Length);
+                                    fp = fp.Substring(Application.StartupPath.Length + @"\".Length);
                                 }
 
 

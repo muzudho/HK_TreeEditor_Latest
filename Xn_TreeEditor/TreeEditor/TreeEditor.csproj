@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions.cs" />
+    <Compile Include="ColorNumber.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,10 +64,17 @@
     <Compile Include="NewProjectDialog.Designer.cs">
       <DependentUpon>NewProjectDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="NodePropertyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NodePropertyDialog.Designer.cs">
+      <DependentUpon>NodePropertyDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scrollbar.cs" />
     <Compile Include="TextHistory.cs" />
+    <Compile Include="TreeNode2.cs" />
     <Compile Include="UiMain.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -90,6 +98,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewProjectDialog.resx">
       <DependentUpon>NewProjectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NodePropertyDialog.resx">
+      <DependentUpon>NodePropertyDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
