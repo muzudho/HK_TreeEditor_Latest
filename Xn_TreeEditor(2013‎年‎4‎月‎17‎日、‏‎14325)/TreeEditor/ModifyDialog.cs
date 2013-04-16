@@ -53,7 +53,7 @@ namespace TreeEditor
                 if (isChangeResource)
                 {
                     form1.UiMain1.Contents.IsChangedResource = true;
-                    form1.UiMain1.TestChangeText();
+                    form1.UiMain1.RefreshTitleBar();
                 }
             }
         }

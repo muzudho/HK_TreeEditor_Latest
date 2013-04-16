@@ -30,6 +30,11 @@ namespace TreeEditor
 
         public TextHistory()
         {
+            this.Clear();
+        }
+
+        public void Clear()
+        {
             this.historyText = new List<string>();
             this.historyCursor = -1;
         }

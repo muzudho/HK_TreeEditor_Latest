@@ -61,7 +61,7 @@
             this.movementTxt.Name = "movementTxt";
             this.movementTxt.Size = new System.Drawing.Size(100, 19);
             this.movementTxt.TabIndex = 2;
-            this.movementTxt.Text = "1";
+            this.movementTxt.Text = "10";
             // 
             // upBtn
             // 

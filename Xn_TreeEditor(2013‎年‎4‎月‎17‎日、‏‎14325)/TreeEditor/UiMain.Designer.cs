@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            TreeEditor.Scrollbar scrollbar2 = new TreeEditor.Scrollbar();
+            TreeEditor.Scrollbar scrollbar1 = new TreeEditor.Scrollbar();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UiMain));
-            TreeEditor.TextHistory textHistory2 = new TreeEditor.TextHistory();
+            TreeEditor.TextHistory textHistory1 = new TreeEditor.TextHistory();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.uiTextside1 = new TreeEditor.UiTextside();
@@ -130,7 +130,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.uiTextside1);
-            this.splitContainer1.Size = new System.Drawing.Size(700, 255);
+            this.splitContainer1.Size = new System.Drawing.Size(700, 355);
             this.splitContainer1.SplitterDistance = 227;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -155,11 +155,11 @@
             this.uiTextside1.IsAutoinputTextareaText = false;
             this.uiTextside1.Location = new System.Drawing.Point(3, 3);
             this.uiTextside1.Name = "uiTextside1";
-            this.uiTextside1.Scrollbar = scrollbar2;
+            this.uiTextside1.Scrollbar = scrollbar1;
             this.uiTextside1.Size = new System.Drawing.Size(542, 446);
             this.uiTextside1.TabIndex = 0;
             this.uiTextside1.TextareaText = "";
-            this.uiTextside1.TextHistory = textHistory2;
+            this.uiTextside1.TextHistory = textHistory1;
             // 
             // toolStripContainer1
             // 
@@ -167,7 +167,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(700, 255);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(700, 355);
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
             this.toolStripContainer1.Size = new System.Drawing.Size(700, 405);
@@ -190,7 +190,7 @@
             this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton45,
             this.toolStripButton21});
-            this.toolStrip4.Location = new System.Drawing.Point(92, 0);
+            this.toolStrip4.Location = new System.Drawing.Point(504, 25);
             this.toolStrip4.Name = "toolStrip4";
             this.toolStrip4.Size = new System.Drawing.Size(58, 25);
             this.toolStrip4.TabIndex = 3;
@@ -244,7 +244,7 @@
             this.toolStripButton39});
             this.toolStrip5.Location = new System.Drawing.Point(3, 25);
             this.toolStrip5.Name = "toolStrip5";
-            this.toolStrip5.Size = new System.Drawing.Size(481, 25);
+            this.toolStrip5.Size = new System.Drawing.Size(450, 25);
             this.toolStrip5.TabIndex = 4;
             // 
             // toolStripButton22
@@ -349,7 +349,7 @@
             this.toolStripButton33.Name = "toolStripButton33";
             this.toolStripButton33.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton33.Text = "toolStripButton33";
-            this.toolStripButton33.ToolTipText = "ノード色変更";
+            this.toolStripButton33.ToolTipText = "ノード・プロパティー変更";
             this.toolStripButton33.Click += new System.EventHandler(this.toolStripButton33_Click);
             // 
             // toolStripSeparator8
@@ -477,7 +477,7 @@
             this.toolStripButton4,
             this.toolStripSeparator2,
             this.toolStripButton5});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 50);
+            this.toolStrip1.Location = new System.Drawing.Point(5, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(139, 25);
             this.toolStrip1.TabIndex = 0;
@@ -496,13 +496,13 @@
             // toolStripButton2
             // 
             this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Enabled = false;
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton2.Text = "toolStripButton2";
             this.toolStripButton2.ToolTipText = "新規プロジェクトを開く";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // toolStripButton3
             // 
@@ -560,7 +560,7 @@
             this.toolStripButton10,
             this.toolStripSeparator4,
             this.toolStripButton11});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 75);
+            this.toolStrip2.Location = new System.Drawing.Point(147, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(185, 25);
             this.toolStrip2.TabIndex = 1;
@@ -657,7 +657,7 @@
             this.toolStrip7.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip7.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton43});
-            this.toolStrip7.Location = new System.Drawing.Point(115, 100);
+            this.toolStrip7.Location = new System.Drawing.Point(453, 25);
             this.toolStrip7.Name = "toolStrip7";
             this.toolStrip7.Size = new System.Drawing.Size(35, 25);
             this.toolStrip7.TabIndex = 6;
@@ -680,7 +680,7 @@
             this.toolStripButton40,
             this.toolStripButton41,
             this.toolStripButton42});
-            this.toolStrip6.Location = new System.Drawing.Point(3, 125);
+            this.toolStrip6.Location = new System.Drawing.Point(338, 0);
             this.toolStrip6.Name = "toolStrip6";
             this.toolStrip6.Size = new System.Drawing.Size(81, 25);
             this.toolStrip6.TabIndex = 5;
@@ -734,7 +734,7 @@
             this.toolStripButton19,
             this.toolStripSeparator7,
             this.toolStripButton20});
-            this.toolStrip3.Location = new System.Drawing.Point(84, 125);
+            this.toolStrip3.Location = new System.Drawing.Point(422, 0);
             this.toolStrip3.Name = "toolStrip3";
             this.toolStrip3.Size = new System.Drawing.Size(237, 25);
             this.toolStrip3.TabIndex = 2;
@@ -864,7 +864,7 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 300000;
+            this.timer1.Interval = 60000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // UiMain

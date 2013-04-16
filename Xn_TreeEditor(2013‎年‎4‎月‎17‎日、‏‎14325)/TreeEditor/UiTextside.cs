@@ -305,7 +305,8 @@ namespace TreeEditor
             }
 
             UiMain uiMain = ((Form1)this.ParentForm).UiMain1;
-            uiMain.TestChangeText();
+            uiMain.Contents.IsChangedText = uiMain.IsChangeText();
+            uiMain.RefreshTitleBar();
 
             //// 改行コードが違っても、文字が同じなら、変更なしと判定します。
             //string text1 = uiMain.Contents.FileText.Replace("\r", "").Replace("\n", "");
@@ -389,7 +390,7 @@ namespace TreeEditor
             Form1 form1 = ((Form1)this.ParentForm);
 
             Image droppedBitmap = new Bitmap(fileName);
-            System.Console.WriteLine("droppedBitmap:" + droppedBitmap.ToString());
+            //ystem.Console.WriteLine("droppedBitmap:" + droppedBitmap.ToString());
 
             PictureBox pic1 = new PictureBox();
             pic1.Visible = true;
@@ -410,7 +411,7 @@ namespace TreeEditor
             this.richTextBox1.SuspendLayout();
             this.richTextBox1.Controls.Add(pic1);
             form1.UiMain1.Contents.IsChangedResource = true;
-            form1.UiMain1.TestChangeText();
+            form1.UiMain1.RefreshTitleBar();
             this.richTextBox1.ResumeLayout();
             this.richTextBox1.Refresh();
             this.Refresh();
@@ -565,7 +566,7 @@ namespace TreeEditor
                     this.DraggingPictureBox.Location.Y + mv.Y
                     );
                 form1.UiMain1.Contents.IsChangedResource = true;
-                form1.UiMain1.TestChangeText();
+                form1.UiMain1.RefreshTitleBar();
                 this.DraggingPictureBox.Refresh();
             }
         }

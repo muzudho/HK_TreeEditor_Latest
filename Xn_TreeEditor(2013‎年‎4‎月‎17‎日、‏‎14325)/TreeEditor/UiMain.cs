@@ -60,40 +60,75 @@ namespace TreeEditor
         }
 
 
-        public string GetTreeCsvFileName(string projectName, bool isBackup)
+        public string GetTreeCsvFile(string projectFolder, bool isBackup)
         {
             StringBuilder sb = new StringBuilder();
             if (isBackup)
             {
-                sb.Append(@"save\");
-                sb.Append(projectName);
-                sb.Append(@"\backup\BK_Tree.csv");
+
+                //タイムスタンプ（分の10の位まで）
+                string time;
+                {
+                    StringBuilder s = new StringBuilder();
+
+                    DateTime now = System.DateTime.Now;
+                    s.Append(String.Format("{0:D4}", now.Year));
+                    s.Append(String.Format("{0:D2}", now.Month));
+                    s.Append(String.Format("{0:D2}", now.Day));
+                    s.Append("_");
+                    s.Append(String.Format("{0:D2}", now.Hour));
+                    s.Append(String.Format("{0:D2}", now.Minute - now.Minute%10));
+
+                    time = s.ToString();
+                }
+
+
+                sb.Append(projectFolder);
+                sb.Append(@"\backup\");
+                sb.Append(time);
+                sb.Append(@"\BK_Tree.csv");
             }
             else
             {
-                sb.Append(@"save\");
-                sb.Append(projectName);
+                sb.Append(projectFolder);
                 sb.Append(@"\Tree.csv");
             }
 
             return sb.ToString();
         }
 
-        public string GetTextFileName(string projectName, string nodeName, bool isBackup)
+        public string GetTextFile(string projectFolder, string nodeName, bool isBackup)
         {
             StringBuilder sb = new StringBuilder();
             if (isBackup)
             {
-                sb.Append(@"save\");
-                sb.Append(projectName);
-                sb.Append(@"\backup\node\");
+
+                //タイムスタンプ（分の10の位まで）
+                string time;
+                {
+                    StringBuilder s = new StringBuilder();
+
+                    DateTime now = System.DateTime.Now;
+                    s.Append(String.Format("{0:D4}", now.Year));
+                    s.Append(String.Format("{0:D2}", now.Month));
+                    s.Append(String.Format("{0:D2}", now.Day));
+                    s.Append("_");
+                    s.Append(String.Format("{0:D2}", now.Hour));
+                    s.Append(String.Format("{0:D2}", now.Minute - now.Minute % 10));
+
+                    time = s.ToString();
+                }
+
+                sb.Append(projectFolder);
+                sb.Append(@"\backup\");
+                sb.Append(time);
+                sb.Append(@"\node\");
                 sb.Append(nodeName);
                 sb.Append(@".txt");
             }
             else
             {
-                sb.Append(@"save\");
-                sb.Append(projectName);
+                sb.Append(projectFolder);
                 sb.Append(@"\node\");
                 sb.Append(nodeName);
                 sb.Append(@".txt");
@@ -102,21 +137,38 @@ namespace TreeEditor
             return sb.ToString();
         }
 
-        public string GetResourceCsvFileName(string projectName, string nodeName, bool isBackup)
+        public string GetResourceCsvFile(string projectFolder, string nodeName, bool isBackup)
         {
             StringBuilder sb = new StringBuilder();
             if (isBackup)
             {
-                sb.Append(@"save\");
-                sb.Append(projectName);
-                sb.Append(@"\backup\node\");
+
+                //タイムスタンプ（分の10の位まで）
+                string time;
+                {
+                    StringBuilder s = new StringBuilder();
+
+                    DateTime now = System.DateTime.Now;
+                    s.Append(String.Format("{0:D4}", now.Year));
+                    s.Append(String.Format("{0:D2}", now.Month));
+                    s.Append(String.Format("{0:D2}", now.Day));
+                    s.Append("_");
+                    s.Append(String.Format("{0:D2}", now.Hour));
+                    s.Append(String.Format("{0:D2}", now.Minute - now.Minute % 10));
+
+                    time = s.ToString();
+                }
+
+                sb.Append(projectFolder);
+                sb.Append(@"\backup\");
+                sb.Append(time);
+                sb.Append(@"\node\");
                 sb.Append(nodeName);
                 sb.Append(@".csv");
             }
             else
             {
-                sb.Append(@"save\");
-                sb.Append(projectName);
+                sb.Append(projectFolder);
                 sb.Append(@"\node\");
                 sb.Append(nodeName);
                 sb.Append(@".csv");
@@ -125,11 +177,10 @@ namespace TreeEditor
             return sb.ToString();
         }
 
-        public string GetListiconDir(string projectName, string nodeName)
+        public string GetListiconFolder(string projectFolder, string nodeName)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(@"save\");
-            sb.Append(projectName);
+            sb.Append(projectFolder);
             sb.Append(@"\img-listicon");
 
             return sb.ToString();
@@ -138,7 +189,7 @@ namespace TreeEditor
         public string GetListiconFile(string projectName, string nodeName, int listiconIndex)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(this.GetListiconDir(projectName,nodeName));
+            sb.Append(this.GetListiconFolder(projectName,nodeName));
             sb.Append(@"\");
             sb.Append(listiconIndex);
             sb.Append(@".png");
@@ -207,13 +258,13 @@ namespace TreeEditor
         {
             this.FitSize();
 
-            this.OpenProject("default");
+            this.OpenProject(Application.StartupPath+@"\save\default");
 
             //リストアイコン
             {
                 this.imageList1.Images.Clear();
-                string dir = this.GetListiconDir(
-                    this.Contents.ProjectName,
+                string dir = this.GetListiconFolder(
+                    this.Contents.ProjectFolder,
                     this.UiTextside1.NodeNameTxt1.Text
                     );
                 if (Directory.Exists(dir))
@@ -242,7 +293,7 @@ namespace TreeEditor
 
 
             //自動バックアップタイマー開始。
-            Actions.Buckup(this);//初回起動時にまず保存。
+            //Actions.Buckup(this);//初回起動時にまず保存。
             this.timer1.Start();
         }
 
@@ -266,8 +317,8 @@ namespace TreeEditor
         /// <summary>
         /// 指定のプロジェクトに切替え。
         /// </summary>
-        /// <param name="projectName"></param>
-        public void OpenProject(string projectName)
+        /// <param name="projectFolder"></param>
+        public void OpenProject(string projectFolder)
         {
             Log_Method log_Method = new Log_MethodImpl();
             Log_ReportsImpl log_Reports = new Log_ReportsImpl(log_Method);
@@ -279,7 +330,7 @@ namespace TreeEditor
             //━━━━━
             //設定
             //━━━━━
-            this.Contents.ProjectName = projectName;
+            this.Contents.ProjectFolder = projectFolder;
 
             //━━━━━
             //ツリービュー
@@ -290,7 +341,7 @@ namespace TreeEditor
             //ツリーCSV
             //━━━━━
             {
-                string file = this.GetTreeCsvFileName(this.Contents.ProjectName,false);
+                string file = this.GetTreeCsvFile(this.Contents.ProjectFolder,false);
                 if (File.Exists(file))
                 {
                     try
@@ -409,8 +460,8 @@ namespace TreeEditor
                 {
                     Actions.LoadPage(
                         (Form1)this.ParentForm,
-                        this.GetTextFileName(this.Contents.ProjectName, this.uiTextside1.NodeNameTxt1.Text, false),//ファイルパス
-                        this.GetResourceCsvFileName(this.Contents.ProjectName, this.uiTextside1.NodeNameTxt1.Text, false)
+                        this.GetTextFile(this.Contents.ProjectFolder, this.uiTextside1.NodeNameTxt1.Text, false),//ファイルパス
+                        this.GetResourceCsvFile(this.Contents.ProjectFolder, this.uiTextside1.NodeNameTxt1.Text, false)
                         );
                 }
             }
@@ -419,6 +470,10 @@ namespace TreeEditor
             //タイトルバー
             //━━━━━
             this.RefreshTitleBar();
+
+
+            System.Console.WriteLine("OpenProject情報　プロジェクト名："+this.Contents.ProjectFolder);
+            System.Console.WriteLine("OpenProject情報　プロジェクトのファイルパス："+this.Contents.ProjectFolder);
 
 
             if (!log_Reports.Successful)
@@ -434,19 +489,32 @@ namespace TreeEditor
         {
             StringBuilder sb = new StringBuilder();
 
+            string head = this.Contents.ProjectFolder + @"\";
+
             //ファイルパス
             if ("" != this.Contents.TextFile)
             {
-                sb.Append(this.Contents.TextFile);
+                string dir2;
+
+                if (this.Contents.TextFile.StartsWith(head))
+                {
+                    dir2 = this.Contents.TextFile.Substring(head.Length, this.Contents.TextFile.Length - head.Length);
+                }
+                else
+                {
+                    dir2 = this.Contents.TextFile;
+                }
+
+                sb.Append(dir2);
                 sb.Append(" / ");
             }
 
-            //プロジェクト名
-            sb.Append(this.Contents.ProjectName);
+            //プロジェクト・フォルダー
+            sb.Append(this.Contents.ProjectFolder);
 
             //アプリケーション名
             sb.Append(" / ツリーエディター");
-            if(this.Contents.IsChangedPage)
+            if(this.Contents.IsChangedProject)
             {
                 sb.Append(" *");
             }
@@ -545,7 +613,7 @@ namespace TreeEditor
         /// 新しいプロジェクトを作成。
         /// </summary>
         /// <param name="projectName"></param>
-        public void CreateDefaultProject(string projectName2)
+        public void CreateDefaultProject(string projectFolder)
         {
             Log_Method log_Method = new Log_MethodImpl();
             Log_ReportsImpl log_Reports = new Log_ReportsImpl(log_Method);
@@ -557,21 +625,43 @@ namespace TreeEditor
             //━━━━━
             try
             {
-                Directory.CreateDirectory(@"save\" + projectName2);
-                Directory.CreateDirectory(@"save\" + projectName2 + @"\img");
-                Directory.CreateDirectory(@"save\" + projectName2 + @"\img-listicon");
-                Directory.CreateDirectory(@"save\" + projectName2 + @"\node");
+                Directory.CreateDirectory(projectFolder);
             }
             catch (Exception)
             {
             }
 
+            try
+            {
+                Directory.CreateDirectory(projectFolder + @"\img");
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                Directory.CreateDirectory(projectFolder + @"\img-listicon");
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                Directory.CreateDirectory(projectFolder + @"\node");
+            }
+            catch (Exception)
+            {
+            }
+
+
             //━━━━━
             //ツリーCSV 作成
             //━━━━━
             {
-                string filePath = this.GetTreeCsvFileName(projectName2, false);
-                if (!File.Exists(filePath))
+                string file = this.GetTreeCsvFile(projectFolder, false);
+                if (!File.Exists(file))
                 {
                     string[] lines = new string[]{
                         "NO,EXPL,TREE,ICON,NAME,FILE,EOL",
@@ -593,7 +683,7 @@ namespace TreeEditor
 
                     try
                     {
-                        File.WriteAllText(filePath, sb.ToString(), Encoding.GetEncoding("Shift_JIS"));
+                        File.WriteAllText(file, sb.ToString(), Encoding.GetEncoding("Shift_JIS"));
                     }
                     catch (Exception)
                     {
@@ -602,25 +692,31 @@ namespace TreeEditor
                 }
                 else
                 {
-                    System.Console.WriteLine("★失敗：ツリーCSV[" + filePath + "]がある。");
+                    System.Console.WriteLine("★失敗：ツリーCSV[" + file + "]がある。");
                 }
             }
 
 
-
             //━━━━━
-            //ノード　テキストファイル作成
+            //ノード　飲み物
             //━━━━━
             {
                 string contents;
                 this.CreateSampleTextFile1(
-                    this.GetTextFileName(projectName2, "飲み物", false),
+                    this.GetTextFile(projectFolder, "飲み物", false),
                     out contents
                     );
             }
-            //テキスト
             {
-                string file = this.GetTextFileName(projectName2, "果物", false);
+                string contents;
+                this.CreateSampleResourceCsvFile1(this.GetResourceCsvFile(projectFolder, "飲み物", false), out contents);
+            }
+
+            //━━━━━
+            //ノード　果物
+            //━━━━━
+            {
+                string file = this.GetTextFile(projectFolder, "果物", false);
                 if (!File.Exists(file))
                 {
                     string[] lines = new string[]{
@@ -665,13 +761,17 @@ namespace TreeEditor
                     }
                 }
             }
-            //CSV
             {
                 string contents;
-                this.CreateSampleResourceCsvFile1(this.GetResourceCsvFileName(projectName2, "食べ物", false), out contents);
+                this.CreateSampleResourceCsvFile1(this.GetResourceCsvFile(projectFolder, "果物", false), out contents);
             }
+
+
+            //━━━━━
+            //ノード　食べ物
+            //━━━━━
             {
-                string filePath = this.GetTextFileName(projectName2, "食べ物", false);
+                string filePath = this.GetTextFile(projectFolder, "食べ物", false);
                 if (!File.Exists(filePath))
                 {
                     string[] lines = new string[]{
@@ -717,7 +817,16 @@ namespace TreeEditor
                 }
             }
             {
-                string filePath = this.GetTextFileName(projectName2, "野菜", false);
+                string contents;
+                this.CreateSampleResourceCsvFile1(this.GetResourceCsvFile(projectFolder, "食べ物", false), out contents);
+            }
+
+
+            //━━━━━
+            //ノード　野菜
+            //━━━━━
+            {
+                string filePath = this.GetTextFile(projectFolder, "野菜", false);
                 if (!File.Exists(filePath))
                 {
                     string[] lines = new string[]{
@@ -762,6 +871,10 @@ namespace TreeEditor
                     }
                 }
             }
+            {
+                string contents;
+                this.CreateSampleResourceCsvFile1(this.GetResourceCsvFile(projectFolder, "野菜", false), out contents);
+            }
 
 
             //━━━━━
@@ -769,14 +882,20 @@ namespace TreeEditor
             //━━━━━
             try
             {
-                System.IO.File.Copy(@"img\listIcon0.png", @"save\" + projectName2 + @"\img-listicon\0.png");
-                System.IO.File.Copy(@"img\listIcon1.png", @"save\" + projectName2 + @"\img-listicon\1.png");
-                System.IO.File.Copy(@"img\listIcon2.png", @"save\" + projectName2 + @"\img-listicon\2.png");
-                System.IO.File.Copy(@"img\listIcon3.png", @"save\" + projectName2 + @"\img-listicon\3.png");
+                System.IO.File.Copy(@"system\img\listIcon0.png", projectFolder + @"\img-listicon\0.png");
+                System.IO.File.Copy(@"system\img\listIcon1.png", projectFolder + @"\img-listicon\1.png");
+                System.IO.File.Copy(@"system\img\listIcon2.png", projectFolder + @"\img-listicon\2.png");
+                System.IO.File.Copy(@"system\img\listIcon3.png", projectFolder + @"\img-listicon\3.png");
             }
             catch (Exception)
             {
             }
+
+
+            //━━━━━
+            //保存
+            //━━━━━
+            Actions.Save((Form1)this.ParentForm);
 
 
             if (!log_Reports.Successful)
@@ -835,11 +954,25 @@ namespace TreeEditor
                     bool isSave = false;
                     bool isLoad = false;
 
-                    if (this.Contents.IsChangedPage)
+                    if (this.Contents.IsChangedProject)
                     {
                         //（１）
+                        StringBuilder sb = new StringBuilder();
+
+                        sb.Append("変更内容を保存しますか？\n");
+                        sb.Append(Environment.NewLine);
+
+                        sb.Append("ツリー[" + this.Contents.IsChangedTree + "]\n");
+                        sb.Append(Environment.NewLine);
+
+                        sb.Append("テキスト[" + this.Contents.IsChangedText + "]\n");
+                        sb.Append(Environment.NewLine);
+
+                        sb.Append("画像配置[" + this.Contents.IsChangedResource + "]\n");
+                        sb.Append(Environment.NewLine);
+
                         DialogResult result = MessageBox.Show(
-                            "変更内容を保存しますか？",
+                            sb.ToString(),
                             "ファイル変更",
                             MessageBoxButtons.YesNoCancel,
                             MessageBoxIcon.Exclamation
@@ -870,7 +1003,7 @@ namespace TreeEditor
 
                     if (isSave)
                     {
-                        Actions.SavePage((Form1)this.ParentForm);
+                        Actions.Save((Form1)this.ParentForm);
                     }
 
 
@@ -891,7 +1024,7 @@ namespace TreeEditor
                         //━━━━━
                         //テキストファイルの存在有無確認
                         //━━━━━
-                        string textFile = this.GetTextFileName(this.Contents.ProjectName, ht.Node.Text, false);
+                        string textFile = this.GetTextFile(this.Contents.ProjectFolder, ht.Node.Text, false);
                         if (!File.Exists(textFile))
                         {
                             // なければ作る。
@@ -904,7 +1037,7 @@ namespace TreeEditor
                         //━━━━━
                         //テキストファイルの存在有無確認
                         //━━━━━
-                        string csvFile = this.GetResourceCsvFileName(this.Contents.ProjectName, ht.Node.Text, false);
+                        string csvFile = this.GetResourceCsvFile(this.Contents.ProjectFolder, ht.Node.Text, false);
                         if (!File.Exists(csvFile))
                         {
                             // なければ作る。
@@ -951,39 +1084,58 @@ namespace TreeEditor
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            Actions.SavePage((Form1)this.ParentForm);
+            Actions.Save((Form1)this.ParentForm);
         }
+
 
         /// <summary>
-        /// テキストを変更しているかどうか確認します。
+        /// カレントテキストに変更があるかどうか確認します。
         /// </summary>
-        public void TestChangeText()
+        public bool IsChangeText()
         {
-            //ページが変更されたかどうか。
-            bool isChanged = false;
+            // 改行コードが違っても、文字が同じなら、変更なしと判定します。
+            string text1 = this.Contents.SavedText.Replace("\r", "").Replace("\n", "");
+            string text2 = this.UiTextside1.TextareaText.Replace("\r", "").Replace("\n", "");
 
-            //テキスト
-            {
-                // 改行コードが違っても、文字が同じなら、変更なしと判定します。
-                string text1 = this.Contents.SavedText.Replace("\r", "").Replace("\n", "");
-                string text2 = this.UiTextside1.TextareaText.Replace("\r", "").Replace("\n", "");
-
-                isChanged = text1.CompareTo(text2) != 0;
-            }
-
-            //CSV
-            if (!isChanged)
-            {
-                if (this.Contents.IsChangedResource)
-                {
-                    isChanged = true;
-                }
-            }
-
-            this.Contents.IsChangedPage = isChanged;
-
-            this.RefreshTitleBar();
+            return text1.CompareTo(text2) != 0;
         }
+
+
+        ///// <summary>
+        ///// プロジェクトに変更があるかどうか確認します。
+        ///// </summary>
+        //public void TestChangeProject()
+        //{
+        //    //プロジェクトに変更があるかどうか。
+        //    bool isChanged = false;
+
+        //    //テキスト
+        //    {
+        //        isChanged = this.IsChangeText();
+        //    }
+
+        //    //CSV
+        //    if (!isChanged)
+        //    {
+        //        if (this.Contents.IsChangedResource)
+        //        {
+        //            isChanged = true;
+        //        }
+        //    }
+
+        //    //ツリー
+        //    if (!isChanged)
+        //    {
+        //        if (this.Contents.IsChangedTree)
+        //        {
+        //            isChanged = true;
+        //        }
+        //    }
+
+        //    this.Contents.IsChangedProject = isChanged;
+
+        //    this.RefreshTitleBar();
+        //}
 
         /// <summary>
         /// ノードアイコン変更
@@ -1044,220 +1196,239 @@ namespace TreeEditor
 
                 DialogResult result = dlg.ShowDialog((Form1)this.ParentForm);
 
-                this.TreeView1.SelectedNode.ImageIndex = dlg.SelectedImageIndex;
-                this.TreeView1.SelectedNode.SelectedImageIndex = dlg.SelectedImageIndex;
-
-                tn.Fore.Red = dlg.ForeRed;
-                tn.Fore.Green = dlg.ForeGreen;
-                tn.Fore.Blue = dlg.ForeBlue;
-                tn.Back.Red = dlg.BackRed;
-                tn.Back.Green = dlg.BackGreen;
-                tn.Back.Blue = dlg.BackBlue;
-                this.TreeView1.SelectedNode.ForeColor = Color.FromArgb(255, dlg.ForeRed, dlg.ForeGreen, dlg.ForeBlue);
-                this.TreeView1.SelectedNode.BackColor = Color.FromArgb(255, dlg.BackRed, dlg.BackGreen, dlg.BackBlue);
-
-                if (this.TreeView1.SelectedNode.Text != dlg.NodeNameText)
+                bool isSuccessful = true;
+                try
                 {
-                    //━━━━━
-                    // ノード名を変更した場合
-                    //━━━━━
-
-                    //　　　　　　　　　　　　移動先ファイルがない　　　移動先ファイルがある
-                    //　　　　　　　　　　┌────────────┬────────────┐
-                    //　　　　　　　　　　│　　　　　　　　　　　　│　　　　　　　　　　　│
-                    //移動元ファイルがない│　　　　　（１）　　　　│　　　　　（２）　　　│
-                    //　　　　　　　　　　│　　　　　　　　　　　　│　　　　　　　　　　　│
-                    //　　　　　　　　　　├────────────┼────────────┤
-                    //　　　　　　　　　　│　　　　　　　　　　　　│　　　　　　　　　　　│
-                    //移動元ファイルがある│　　　　　（３）　　　　│　　　　　（４）　　　│
-                    //　　　　　　　　　　│　　　　　　　　　　　　│　　　　　　　　　　　│
-                    //　　　　　　　　　　└────────────┴────────────┘
-
-
-                    //移動元ファイル名
-                    string srcTextFile = this.GetTextFileName(this.Contents.ProjectName, this.TreeView1.SelectedNode.Text, false);
-                    string srcCsvFile = this.GetResourceCsvFileName(this.Contents.ProjectName, this.TreeView1.SelectedNode.Text, false);
-                    //移動先ファイル名
-                    string dstTextFile = this.GetTextFileName(this.Contents.ProjectName, dlg.NodeNameText, false);
-                    string dstCsvFile = this.GetResourceCsvFileName(this.Contents.ProjectName, dlg.NodeNameText, false);
-
-                    //　　　　　　　　　　　　　　　　　　（１）　　　（２）　　　（３）　　　（４）
-                    //　　　　　　　　　　　　　　　　┌─────┬─────┬─────┬─────┐
-                    //　　　　　　　　　　　　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
-                    //（Ａ）保存を要求し、　　　　　　│　　　　　│　　○　　│　　　　　│　　○　　│
-                    //　　　　断れば中断する　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
-                    //　　　　　　　　　　　　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
-                    //（Ｂ）新規作成し、　　　　　　　│　　○　　│　　　　　│　　　　　│　　　　　│
-                    //　　　　カレントとする　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
-                    //　　　　　　　　　　　　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
-                    //（Ｃ）移動先ファイルをロードし　│　　　　　│　　○　　│　　　　　│　　○　　│
-                    //　　　　カレントとする　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
-                    //　　　　　　　　　　　　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
-                    //（Ｄ）移動元ファイルをリネームし│　　　　　│　　　　　│　　○　　│　　　　　│
-                    //　　　　移動先をカレントとする　│　　　　　│　　　　　│　　　　　│　　　　　│
-                    //　　　　　　　　　　　　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
-                    //　　　　　　　　　　　　　　　　└─────┴─────┴─────┴─────┘
-
-                    bool textA = false;
-                    bool textB = false;
-                    bool textC = false;
-                    bool textD = false;
-                    bool csvA = false;
-                    bool csvB = false;
-                    bool csvC = false;
-                    bool csvD = false;
-
-                    if (!File.Exists(srcTextFile))
-                    {
-                        if (!File.Exists(dstTextFile))
-                        {
-                            //（１）
-                            System.Console.WriteLine("TXT（１）と判断");
-                            textB = true;
-                        }
-                        else
-                        {
-                            //（２）
-                            System.Console.WriteLine("TXT（２）と判断");
-                            textA = true;
-                            textC = true;
-                        }
-                    }
-                    else
-                    {
-                        if (!File.Exists(dstTextFile))
-                        {
-                            //（３）
-                            System.Console.WriteLine("TXT（３）と判断");
-                            textD = true;
-                        }
-                        else
-                        {
-                            //（４）
-                            System.Console.WriteLine("TXT（４）と判断");
-                            textA = true;
-                            textC = true;
-                        }
-                    }
-
-                    if (!File.Exists(srcCsvFile))
-                    {
-                        if (!File.Exists(dstCsvFile))
-                        {
-                            //（１）
-                            System.Console.WriteLine("CSV（１）と判断");
-                            csvB = true;
-                        }
-                        else
-                        {
-                            //（２）
-                            System.Console.WriteLine("CSV（２）と判断");
-                            csvA = true;
-                            csvC = true;
-                        }
-                    }
-                    else
-                    {
-                        if (!File.Exists(dstCsvFile))
-                        {
-                            //（３）
-                            System.Console.WriteLine("CSV（３）と判断");
-                            csvD = true;
-                        }
-                        else
-                        {
-                            //（４）
-                            System.Console.WriteLine("CSV（４）と判断");
-                            csvA = true;
-                            csvC = true;
-                        }
-                    }
-
+                    System.IO.Path.GetFullPath(dlg.NodeNameText);
+                }
+                catch (Exception)
+                {
+                    // ファイル名に使えない文字や、文字数が長すぎた時に例外が投げられます。
                     Form1 form1 = (Form1)this.ParentForm;
+                    MessageBox.Show(form1, "ファイル名に使えない名前？\n[" + dlg.NodeNameText + "]\n処理を中断します。", "何らかのエラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    isSuccessful = false;
+                }
 
-                    //─────
-                    //（Ａ）保存を要求し、
-                    //　　　　断れば中断する
-                    //─────
-                    if (textA || csvA)
+                if (isSuccessful)
+                {
+                    // ツリーが更新されたと判定。
+                    this.Contents.IsChangedTree = true;
+
+                    this.TreeView1.SelectedNode.ImageIndex = dlg.SelectedImageIndex;
+                    this.TreeView1.SelectedNode.SelectedImageIndex = dlg.SelectedImageIndex;
+
+                    tn.Fore.Red = dlg.ForeRed;
+                    tn.Fore.Green = dlg.ForeGreen;
+                    tn.Fore.Blue = dlg.ForeBlue;
+                    tn.Back.Red = dlg.BackRed;
+                    tn.Back.Green = dlg.BackGreen;
+                    tn.Back.Blue = dlg.BackBlue;
+                    this.TreeView1.SelectedNode.ForeColor = Color.FromArgb(255, dlg.ForeRed, dlg.ForeGreen, dlg.ForeBlue);
+                    this.TreeView1.SelectedNode.BackColor = Color.FromArgb(255, dlg.BackRed, dlg.BackGreen, dlg.BackBlue);
+
+                    if (this.TreeView1.SelectedNode.Text != dlg.NodeNameText)
                     {
-                        DialogResult result2 = MessageBox.Show(form1, "ノード名が変更されました。\n処理を続けるには、現在開いているファイルを保存する必要があります。\n[" + srcTextFile + "]\n[" + srcCsvFile + "]\n保存しますか？","警告",MessageBoxButtons.YesNoCancel);
-                        switch(result2)
+                        //━━━━━
+                        // ノード名を変更した場合
+                        //━━━━━
+
+                        //　　　　　　　　　　　　移動先ファイルがない　　　移動先ファイルがある
+                        //　　　　　　　　　　┌────────────┬────────────┐
+                        //　　　　　　　　　　│　　　　　　　　　　　　│　　　　　　　　　　　│
+                        //移動元ファイルがない│　　　　　（１）　　　　│　　　　　（２）　　　│
+                        //　　　　　　　　　　│　　　　　　　　　　　　│　　　　　　　　　　　│
+                        //　　　　　　　　　　├────────────┼────────────┤
+                        //　　　　　　　　　　│　　　　　　　　　　　　│　　　　　　　　　　　│
+                        //移動元ファイルがある│　　　　　（３）　　　　│　　　　　（４）　　　│
+                        //　　　　　　　　　　│　　　　　　　　　　　　│　　　　　　　　　　　│
+                        //　　　　　　　　　　└────────────┴────────────┘
+
+
+                        //移動元ファイル名
+                        string srcTextFile = this.GetTextFile(this.Contents.ProjectFolder, this.TreeView1.SelectedNode.Text, false);
+                        string srcCsvFile = this.GetResourceCsvFile(this.Contents.ProjectFolder, this.TreeView1.SelectedNode.Text, false);
+                        //移動先ファイル名
+                        string dstTextFile = this.GetTextFile(this.Contents.ProjectFolder, dlg.NodeNameText, false);
+                        string dstCsvFile = this.GetResourceCsvFile(this.Contents.ProjectFolder, dlg.NodeNameText, false);
+
+                        //　　　　　　　　　　　　　　　　　　（１）　　　（２）　　　（３）　　　（４）
+                        //　　　　　　　　　　　　　　　　┌─────┬─────┬─────┬─────┐
+                        //　　　　　　　　　　　　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
+                        //（Ａ）保存を要求し、　　　　　　│　　　　　│　　○　　│　　　　　│　　○　　│
+                        //　　　　断れば中断する　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
+                        //　　　　　　　　　　　　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
+                        //（Ｂ）新規作成し、　　　　　　　│　　○　　│　　　　　│　　　　　│　　　　　│
+                        //　　　　カレントとする　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
+                        //　　　　　　　　　　　　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
+                        //（Ｃ）移動先ファイルをロードし　│　　　　　│　　○　　│　　　　　│　　○　　│
+                        //　　　　カレントとする　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
+                        //　　　　　　　　　　　　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
+                        //（Ｄ）移動元ファイルをリネームし│　　　　　│　　　　　│　　○　　│　　　　　│
+                        //　　　　移動先をカレントとする　│　　　　　│　　　　　│　　　　　│　　　　　│
+                        //　　　　　　　　　　　　　　　　│　　　　　│　　　　　│　　　　　│　　　　　│
+                        //　　　　　　　　　　　　　　　　└─────┴─────┴─────┴─────┘
+
+                        bool textA = false;
+                        bool textB = false;
+                        bool textC = false;
+                        bool textD = false;
+                        bool csvA = false;
+                        bool csvB = false;
+                        bool csvC = false;
+                        bool csvD = false;
+
+                        if (!File.Exists(srcTextFile))
                         {
-                            case DialogResult.Yes:
-                                //保存して続行
-                                Actions.SavePage(form1);
-                                break;
-                            case DialogResult.No:
-                                //保存せずに続行
-                                break;
-                            default:
-                                //中断
-                                goto gt_Abort;
+                            if (!File.Exists(dstTextFile))
+                            {
+                                //（１）
+                                System.Console.WriteLine("TXT（１）と判断");
+                                textB = true;
+                            }
+                            else
+                            {
+                                //（２）
+                                System.Console.WriteLine("TXT（２）と判断");
+                                textA = true;
+                                textC = true;
+                            }
                         }
+                        else
+                        {
+                            if (!File.Exists(dstTextFile))
+                            {
+                                //（３）
+                                System.Console.WriteLine("TXT（３）と判断");
+                                textD = true;
+                            }
+                            else
+                            {
+                                //（４）
+                                System.Console.WriteLine("TXT（４）と判断");
+                                textA = true;
+                                textC = true;
+                            }
+                        }
+
+                        if (!File.Exists(srcCsvFile))
+                        {
+                            if (!File.Exists(dstCsvFile))
+                            {
+                                //（１）
+                                System.Console.WriteLine("CSV（１）と判断");
+                                csvB = true;
+                            }
+                            else
+                            {
+                                //（２）
+                                System.Console.WriteLine("CSV（２）と判断");
+                                csvA = true;
+                                csvC = true;
+                            }
+                        }
+                        else
+                        {
+                            if (!File.Exists(dstCsvFile))
+                            {
+                                //（３）
+                                System.Console.WriteLine("CSV（３）と判断");
+                                csvD = true;
+                            }
+                            else
+                            {
+                                //（４）
+                                System.Console.WriteLine("CSV（４）と判断");
+                                csvA = true;
+                                csvC = true;
+                            }
+                        }
+
+                        Form1 form1 = (Form1)this.ParentForm;
+
+                        //─────
+                        //（Ａ）保存を要求し、
+                        //　　　　断れば中断する
+                        //─────
+                        if (textA || csvA)
+                        {
+                            DialogResult result2 = MessageBox.Show(form1, "ノード名が変更されました。\n処理を続けるには、現在開いているファイルを保存する必要があります。\n[" + srcTextFile + "]\n[" + srcCsvFile + "]\n保存しますか？", "警告", MessageBoxButtons.YesNoCancel);
+                            switch (result2)
+                            {
+                                case DialogResult.Yes:
+                                    //保存して続行
+                                    Actions.Save(form1);
+                                    break;
+                                case DialogResult.No:
+                                    //保存せずに続行
+                                    break;
+                                default:
+                                    //中断
+                                    goto gt_Abort;
+                            }
+                        }
+
+
+                        //─────
+                        //（Ｂ）新規作成し、
+                        //　　　　カレントとする
+                        //─────
+                        if (textB)
+                        {
+                            string contents = "";
+                            this.CreateSampleTextFile1(srcTextFile, out contents);
+                            this.Contents.TextNow(srcTextFile, contents);
+                        }
+
+                        if (csvB)
+                        {
+                            string contents = "";
+                            this.CreateSampleResourceCsvFile1(srcCsvFile, out contents);
+                            this.Contents.CsvNow(srcCsvFile, contents);
+                        }
+
+
+                        //─────
+                        //（Ｃ）移動先ファイルをロードし
+                        //　　　　カレントとする
+                        //─────
+                        if (textC)
+                        {
+                            // 既にあるテキストファイル
+                            MessageBox.Show("既にあるテキストファイルを読み込みます。テキスト[" + dstTextFile + "]");
+                            Actions.LoadPageText(form1, dstTextFile);
+                        }
+
+                        if (csvC)
+                        {
+                            // 既にあるCSVファイル
+                            MessageBox.Show("既にあるCSVファイルを読み込みます。リソース[" + dstCsvFile + "]");
+                            Actions.LoadPageCsv(form1, dstCsvFile);
+                        }
+
+
+                        //─────
+                        //（Ｄ）移動元ファイルをリネームし
+                        //　　　　移動先をカレントとする
+                        //─────
+                        if (textD)
+                        {
+                            File.Move(srcTextFile, dstTextFile);
+                            this.Contents.TextNow(dstTextFile, this.Contents.SavedText);
+                        }
+
+                        if (csvD)
+                        {
+                            File.Move(srcCsvFile, dstCsvFile);
+                            this.Contents.CsvNow(dstCsvFile, this.Contents.SavedCsv);
+                        }
+
+
+                        //━━━━━
+                        // ノード名の変更
+                        //━━━━━
+                        this.TreeView1.SelectedNode.Text = dlg.NodeNameText;//ツリービュー
+                        this.UiTextside1.NodeNameTxt1.Text = dlg.NodeNameText;//ノード名表示
                     }
-
-
-                    //─────
-                    //（Ｂ）新規作成し、
-                    //　　　　カレントとする
-                    //─────
-                    if (textB)
-                    {
-                        string contents = "";
-                        this.CreateSampleTextFile1(srcTextFile, out contents);
-                        this.Contents.TextNow(srcTextFile, contents);
-                    }
-
-                    if (csvB)
-                    {
-                        string contents = "";
-                        this.CreateSampleResourceCsvFile1(srcCsvFile, out contents);
-                        this.Contents.CsvNow(srcCsvFile, contents);
-                    }
-
-
-                    //─────
-                    //（Ｃ）移動先ファイルをロードし
-                    //　　　　カレントとする
-                    //─────
-                    if (textC)
-                    {
-                        // 既にあるテキストファイル
-                        MessageBox.Show("既にあるテキストファイルを読み込みます。テキスト[" + dstTextFile + "]");
-                        Actions.LoadPageText(form1, dstTextFile);
-                    }
-
-                    if (csvC)
-                    {
-                        // 既にあるCSVファイル
-                        MessageBox.Show("既にあるCSVファイルを読み込みます。リソース[" + dstCsvFile + "]");
-                        Actions.LoadPageCsv(form1, dstCsvFile);
-                    }
-
-
-                    //─────
-                    //（Ｄ）移動元ファイルをリネームし
-                    //　　　　移動先をカレントとする
-                    //─────
-                    if (textD)
-                    {
-                        File.Move(srcTextFile, dstTextFile);
-                        this.Contents.TextNow(dstTextFile, this.Contents.SavedText);
-                    }
-
-                    if (csvD)
-                    {
-                        File.Move(srcCsvFile, dstCsvFile);
-                        this.Contents.CsvNow(dstCsvFile, this.Contents.SavedCsv);
-                    }
-
-
-                    //━━━━━
-                    // ノード名の変更
-                    //━━━━━
-                    this.TreeView1.SelectedNode.Text = dlg.NodeNameText;//ツリービュー
-                    this.UiTextside1.NodeNameTxt1.Text = dlg.NodeNameText;//ノード名表示
 
                 gt_Abort://処理を中断した場合の飛び先。
                     ;
@@ -1268,14 +1439,13 @@ namespace TreeEditor
         }
 
         /// <summary>
-        /// 5分ごとにバックアップを取りたい。
+        /// 時限式で自動バックアップを取りたい。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
-
-            System.Console.WriteLine("★5分ごとにバックアップを取りたい。");
+            System.Console.WriteLine("timer1:自動バックアップを取りたい。");
             Actions.Buckup(this);
         }
 
@@ -1290,6 +1460,7 @@ namespace TreeEditor
             // ノード名を適当に作成。
             string nodeName;
             {
+                //タイムスタンプ
                 StringBuilder s = new StringBuilder();
 
                 DateTime now = System.DateTime.Now;
@@ -1307,20 +1478,24 @@ namespace TreeEditor
             }
 
 
-            if (null != this.TreeView1.SelectedNode.Parent)
+            if (null == this.TreeView1.SelectedNode)
+            {
+
+            }
+            else if (null != this.TreeView1.SelectedNode.Parent)
             {
                 TreeNode2 tn = this.NewTreeNode(nodeName, 0, "#000000", "#FFFFFF");
 
                 //テキスト
                 {
                     string contents;
-                    this.CreateSampleTextFile1(this.GetTextFileName(this.Contents.ProjectName, nodeName, false), out contents);
+                    this.CreateSampleTextFile1(this.GetTextFile(this.Contents.ProjectFolder, nodeName, false), out contents);
                 }
 
                 //CSV
                 {
                     string contents;
-                    this.CreateSampleResourceCsvFile1(this.GetResourceCsvFileName(this.Contents.ProjectName, nodeName, false), out contents);
+                    this.CreateSampleResourceCsvFile1(this.GetResourceCsvFile(this.Contents.ProjectFolder, nodeName, false), out contents);
                 }
 
                 this.TreeView1.SelectedNode.Parent.Nodes.Add(tn);
@@ -1332,13 +1507,13 @@ namespace TreeEditor
                 //テキスト
                 {
                     string contents;
-                    this.CreateSampleTextFile1(this.GetTextFileName(this.Contents.ProjectName, nodeName, false), out contents);
+                    this.CreateSampleTextFile1(this.GetTextFile(this.Contents.ProjectFolder, nodeName, false), out contents);
                 }
 
                 //CSV
                 {
                     string contents;
-                    this.CreateSampleResourceCsvFile1(this.GetResourceCsvFileName(this.Contents.ProjectName, nodeName, false), out contents);
+                    this.CreateSampleResourceCsvFile1(this.GetResourceCsvFile(this.Contents.ProjectFolder, nodeName, false), out contents);
                 }
 
                 // トップ階層の場合
@@ -1595,6 +1770,20 @@ namespace TreeEditor
             this.TreeView1.Visible = true;
             this.TreeView1.SelectedNode = nodeClone;
             this.TreeView1.Focus();
+
+            // ツリーに更新があったものと判定します。
+            this.Contents.IsChangedTree = true;
+            this.RefreshTitleBar();
+        }
+
+        /// <summary>
+        /// フォルダーを開くボタン。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            Actions.Open((Form1)this.ParentForm);
         }
 
 

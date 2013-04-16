@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Xenon.Syntax;
+
 namespace TreeEditor
 {
     public partial class NodePropertyDialog : Form
@@ -511,7 +513,7 @@ namespace TreeEditor
                 ListBox lst = (ListBox)sender;
                 this.SelectedImageIndex = (int)lst.SelectedItem;
 
-                string file = form1.UiMain1.GetListiconFile(form1.UiMain1.Contents.ProjectName, form1.UiMain1.UiTextside1.NodeNameTxt1.Text, this.SelectedImageIndex);
+                string file = form1.UiMain1.GetListiconFile(form1.UiMain1.Contents.ProjectFolder, form1.UiMain1.UiTextside1.NodeNameTxt1.Text, this.SelectedImageIndex);
                 System.Console.WriteLine("★imageIndexLst_SelectedIndexChanged　this.SelectedImageIndex=[" + this.SelectedImageIndex + "]　file=[" + file + "]");
                 this.pictureBox1.ImageLocation = file;
                 this.pictureBox1.Refresh();
@@ -526,6 +528,19 @@ namespace TreeEditor
 
                 bool duplicate = false;
                 TextBox txt = (TextBox)sender;
+
+
+                try
+                {
+                    System.IO.Path.GetFullPath(txt.Text);
+                }
+                catch (Exception)
+                {
+                    // ファイル名に使えない文字や、文字数が長すぎた時に例外が投げられます。
+                    MessageBox.Show(form1, "ファイル名に使えない名前？\n["+txt.Text+"]", "何らかのエラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+
+
                 foreach (TreeNode tn in form1.UiMain1.TreeView1.Nodes)
                 {
                     if (tn.Text == txt.Text)
