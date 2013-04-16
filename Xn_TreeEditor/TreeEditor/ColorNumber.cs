@@ -112,7 +112,7 @@ namespace TreeEditor
             set
             {
                 string s = value;
-                System.Console.WriteLine("ウェブカラー s=[" + s + "] s.Length=[" + s.Length + "]");
+                //ystem.Console.WriteLine("ウェブカラー s=[" + s + "] s.Length=[" + s.Length + "]");
 
                 if (!s.StartsWith("#"))
                 {

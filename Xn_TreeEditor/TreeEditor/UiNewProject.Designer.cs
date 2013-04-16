@@ -33,6 +33,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.currentTxt = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // listBox1
@@ -46,14 +48,14 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(176, 80);
+            this.textBox1.Location = new System.Drawing.Point(176, 146);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(292, 19);
             this.textBox1.TabIndex = 1;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(379, 105);
+            this.button1.Location = new System.Drawing.Point(379, 171);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(89, 23);
             this.button1.TabIndex = 2;
@@ -64,7 +66,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(174, 65);
+            this.label1.Location = new System.Drawing.Point(174, 131);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(81, 12);
             this.label1.TabIndex = 3;
@@ -79,10 +81,29 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "既にある名前は使えません。";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(174, 47);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(116, 12);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "今、使用中のフォルダー";
+            // 
+            // currentTxt
+            // 
+            this.currentTxt.Enabled = false;
+            this.currentTxt.Location = new System.Drawing.Point(176, 62);
+            this.currentTxt.Name = "currentTxt";
+            this.currentTxt.Size = new System.Drawing.Size(292, 19);
+            this.currentTxt.TabIndex = 6;
+            // 
             // UiNewProject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.currentTxt);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
@@ -103,5 +124,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox currentTxt;
     }
 }

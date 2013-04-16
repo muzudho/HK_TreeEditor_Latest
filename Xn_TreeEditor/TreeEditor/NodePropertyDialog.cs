@@ -511,7 +511,7 @@ namespace TreeEditor
                 ListBox lst = (ListBox)sender;
                 this.SelectedImageIndex = (int)lst.SelectedItem;
 
-                string file = form1.UiMain1.GetListiconFile(form1.UiMain1.ProjectName, form1.UiMain1.UiTextside1.NodeNameTxt1.Text, this.SelectedImageIndex);
+                string file = form1.UiMain1.GetListiconFile(form1.UiMain1.Contents.ProjectName, form1.UiMain1.UiTextside1.NodeNameTxt1.Text, this.SelectedImageIndex);
                 System.Console.WriteLine("★imageIndexLst_SelectedIndexChanged　this.SelectedImageIndex=[" + this.SelectedImageIndex + "]　file=[" + file + "]");
                 this.pictureBox1.ImageLocation = file;
                 this.pictureBox1.Refresh();

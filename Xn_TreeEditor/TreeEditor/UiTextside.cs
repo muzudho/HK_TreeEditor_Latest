@@ -255,6 +255,12 @@ namespace TreeEditor
             this.toolStripComboBox2.Items.Clear();
             this.toolStripComboBox2.Items.AddRange(new string[] {"9","10","11" });
             this.toolStripComboBox2.SelectedIndex = 0;
+
+
+            //━━━━━
+            // タイマー
+            //━━━━━
+            this.timer1.Start();
         }
 
         private void UiTextside_Resize(object sender, EventArgs e)
@@ -301,12 +307,13 @@ namespace TreeEditor
             UiMain uiMain = ((Form1)this.ParentForm).UiMain1;
             uiMain.TestChangeText();
 
-            // 改行コードが違っても、文字が同じなら、変更なしと判定します。
-            string text1 = uiMain.NodeFileText.Replace("\r", "").Replace("\n", "");
-            string text2 = this.richTextBox1.Text.Replace("\r", "").Replace("\n", "");
+            //// 改行コードが違っても、文字が同じなら、変更なしと判定します。
+            //string text1 = uiMain.Contents.FileText.Replace("\r", "").Replace("\n", "");
+            //string text2 = this.richTextBox1.Text.Replace("\r", "").Replace("\n", "");
 
-            uiMain.IsChangedText = text1.CompareTo(text2)!=0;
-            //uiMain.IsChangedText = uiMain.FileText.CompareTo(this.richTextBox1.Text) != 0;
+            //uiMain.Contents.IsChangedText = text1.CompareTo(text2)!=0;
+            ////uiMain.IsChangedText = uiMain.FileText.CompareTo(this.richTextBox1.Text) != 0;
+            //uiMain.RefreshTitleBar();
 
             //System.Console.WriteLine("★uiMain.FileText==this.richTextBox1.Text");
             //System.Console.WriteLine(uiMain.FileText==this.richTextBox1.Text);
@@ -319,7 +326,6 @@ namespace TreeEditor
             //System.Console.WriteLine("★テキストエリアテキスト");
             //System.Console.WriteLine(this.richTextBox1.Text);
 
-            uiMain.RefreshTitleBar();
         }
 
         private void richTextBox1_DragEnter(object sender, DragEventArgs e)
@@ -380,6 +386,8 @@ namespace TreeEditor
 
         public PictureBox NewPictureBox(string fileName, Point p2)
         {
+            Form1 form1 = ((Form1)this.ParentForm);
+
             Image droppedBitmap = new Bitmap(fileName);
             System.Console.WriteLine("droppedBitmap:" + droppedBitmap.ToString());
 
@@ -401,6 +409,8 @@ namespace TreeEditor
 
             this.richTextBox1.SuspendLayout();
             this.richTextBox1.Controls.Add(pic1);
+            form1.UiMain1.Contents.IsChangedResource = true;
+            form1.UiMain1.TestChangeText();
             this.richTextBox1.ResumeLayout();
             this.richTextBox1.Refresh();
             this.Refresh();
@@ -541,6 +551,8 @@ namespace TreeEditor
 
             if (null != this.DraggingPictureBox)
             {
+                Form1 form1 = (Form1)this.ParentForm;
+
                 // マウス移動量。
                 Point mv = new Point(
                         e.X - this.mouseDownOffsetLocation.X,
@@ -552,6 +564,8 @@ namespace TreeEditor
                     this.DraggingPictureBox.Location.X + mv.X,
                     this.DraggingPictureBox.Location.Y + mv.Y
                     );
+                form1.UiMain1.Contents.IsChangedResource = true;
+                form1.UiMain1.TestChangeText();
                 this.DraggingPictureBox.Refresh();
             }
         }
@@ -598,9 +612,18 @@ namespace TreeEditor
             this.Scrollbar.OnHScroll(sender, e);
         }
 
-        private void richTextBox1_MouseMove(object sender, MouseEventArgs e)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void timer1_Tick(object sender, EventArgs e)
         {
-            if(this.ImageMovement.X != 0 || this.ImageMovement.Y != 0)
+            //━━━━━
+            // スクロールバーの移動量を、全画像に逆方向に加算
+            //━━━━━
+            if (this.ImageMovement.X != 0 || this.ImageMovement.Y != 0)
             {
                 //━━━━━
                 // 全画像のYに移動量を逆方向に加算
@@ -624,9 +647,8 @@ namespace TreeEditor
                 }
 
                 this.ImageMovement = new Point();
-            }
-
-
+            }            
         }
+
     }
 }

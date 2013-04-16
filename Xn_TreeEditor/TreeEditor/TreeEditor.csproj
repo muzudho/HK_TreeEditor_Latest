@@ -52,11 +52,18 @@
   <ItemGroup>
     <Compile Include="Actions.cs" />
     <Compile Include="ColorNumber.cs" />
+    <Compile Include="Contents.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModifyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModifyDialog.Designer.cs">
+      <DependentUpon>ModifyDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="NewProjectDialog.cs">
       <SubType>Form</SubType>
@@ -96,6 +103,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModifyDialog.resx">
+      <DependentUpon>ModifyDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewProjectDialog.resx">
       <DependentUpon>NewProjectDialog.cs</DependentUpon>

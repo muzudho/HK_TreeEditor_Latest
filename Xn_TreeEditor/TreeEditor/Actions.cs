@@ -82,13 +82,9 @@ namespace TreeEditor
 
         }
 
-        public static void Load(Form1 form1,string textFilePath, string resourceCsvFilePath)
+        public static void LoadPageText(Form1 form1, string file)
         {
-            Log_Method log_Method = new Log_MethodImpl();
-            Log_ReportsImpl log_Reports = new Log_ReportsImpl(log_Method);
-            log_Method.BeginMethod("--", "Actions", "Load", log_Reports);
-
-            if (File.Exists(textFilePath))
+            if (File.Exists(file))
             {
                 try
                 {
@@ -96,11 +92,11 @@ namespace TreeEditor
                     //テキスト読取り
                     //━━━━━
                     {
-                        string text = File.ReadAllText(textFilePath, Encoding.GetEncoding("Shift_JIS"));
-                        form1.UiMain1.NodeFileText = text;
-                        form1.UiMain1.NodeFilePath = textFilePath;
-                        form1.UiMain1.CsvFilePath = resourceCsvFilePath;
-                        form1.UiMain1.UiTextside1.TextareaText = text;
+                        string contents = File.ReadAllText(file, Encoding.GetEncoding("Shift_JIS"));
+                        System.Console.WriteLine("★テキストファイルを読み込みます。[" + file + "]　[" + contents + "]");
+                        form1.UiMain1.Contents.TextNow(file, contents);
+
+                        form1.UiMain1.UiTextside1.TextareaText = contents;
                     }
                 }
                 catch (Exception)
@@ -109,50 +105,55 @@ namespace TreeEditor
             }
             else
             {
-                MessageBox.Show(form1, textFilePath, "ノードTXTファイル[" + textFilePath + "]が無い");
+                MessageBox.Show(form1, file, "ノードTXTファイル[" + file + "]が無い");
             }
+        }
 
+        public static void LoadPageCsv(Form1 form1, string file)
+        {
+            Log_Method log_Method = new Log_MethodImpl();
+            Log_ReportsImpl log_Reports = new Log_ReportsImpl(log_Method);
+            log_Method.BeginMethod("--", "Actions", "LoadPageCsv", log_Reports);
 
             //━━━━━
             //画像情報読取り
             //━━━━━
-            if (File.Exists(resourceCsvFilePath))
+            if (File.Exists(file))
             {
                 try
                 {
-                    string text = File.ReadAllText(resourceCsvFilePath, Encoding.GetEncoding("Shift_JIS"));
+                    string contents = File.ReadAllText(file, Encoding.GetEncoding("Shift_JIS"));
 
                     CsvTo_TableImpl csvTo = new CsvTo_TableImpl();
                     Request_ReadsTableImpl request = new Request_ReadsTableImpl();
                     //request.Name_PutToTable = resourceCsvFilePath;
                     Format_TableImpl format = new Format_TableImpl();
                     Table_Humaninput table = csvTo.Read(
-                        text,
+                        contents,
                         request,
                         format,
                         log_Reports
                         );
                     if (log_Reports.Successful)
                     {
-                        System.Console.WriteLine("★CSV読込完了 [" + resourceCsvFilePath + "]");
-
                         table.ForEach_Datapart(delegate(Record_Humaninput recordH, ref bool isBreak2, Log_Reports log_Reports2)
                         {
-                            string no = recordH.TextAt("NO");
-                            string expl = recordH.TextAt("EXPL");
-                            string file = recordH.TextAt("FILE");
+                            //レコード
+                            string rNo = recordH.TextAt("NO");
+                            string rExpl = recordH.TextAt("EXPL");
+                            string rFile = recordH.TextAt("FILE");
                             //左上座標
-                            string x = recordH.TextAt("X");
-                            string y = recordH.TextAt("Y");
-                            System.Console.WriteLine("NO=" + no + " EXPL=" + expl + " FILE=" + file + " X=" + x + " Y=" + y);
+                            string rX = recordH.TextAt("X");
+                            string rY = recordH.TextAt("Y");
+                            System.Console.WriteLine("NO=" + rNo + " EXPL=" + rExpl + " FILE=" + rFile + " X=" + rX + " Y=" + rY);
 
                             int xN;
-                            int.TryParse(x, out xN);
+                            int.TryParse(rX, out xN);
 
                             int yN;
-                            int.TryParse(y, out yN);
+                            int.TryParse(rY, out yN);
 
-                            PictureBox pic1 = form1.UiMain1.UiTextside1.NewPictureBox(file, new Point(xN, yN));
+                            PictureBox pic1 = form1.UiMain1.UiTextside1.NewPictureBox(rFile, new Point(xN, yN));
 
                             //中心座標に変更
                             pic1.Location = new Point(
@@ -160,9 +161,12 @@ namespace TreeEditor
                                 pic1.Location.Y + pic1.Height / 2
                                 );
 
-
                         }, log_Reports);
 
+                        System.Console.WriteLine("★CSV読込完了 [" + file + "]");
+                        form1.UiMain1.Contents.CsvNow(file, contents);
+                        form1.UiMain1.Contents.IsChangedResource = false;
+                        form1.UiMain1.TestChangeText();
                     }
                     else
                     {
@@ -175,10 +179,35 @@ namespace TreeEditor
             }
             else
             {
-                System.Console.WriteLine("★失敗：リソースCSV[" + resourceCsvFilePath + "]がない。");
+                System.Console.WriteLine("★失敗：リソースCSV[" + file + "]がない。");
             }
 
+            if (!log_Reports.Successful)
+            {
+                MessageBox.Show(form1, log_Reports.ToText(), "エラー");
+            }
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="form1"></param>
+        /// <param name="textFile">ファイルパス。</param>
+        /// <param name="csvFile">画像情報用ファイルパス。</param>
+        public static void LoadPage(Form1 form1,string textFile, string csvFile)
+        {
+            Log_Method log_Method = new Log_MethodImpl();
+            Log_ReportsImpl log_Reports = new Log_ReportsImpl(log_Method);
+            log_Method.BeginMethod("--", "Actions", "Load", log_Reports);
+
+            System.Console.WriteLine("ロードページ　予想プロジェクト名：" + form1.UiMain1.Contents.ProjectName);
+            System.Console.WriteLine("ロードページ　予想ツリーファイル：" + form1.UiMain1.GetTreeCsvFileName(form1.UiMain1.Contents.ProjectName, false));
+            System.Console.WriteLine("ロードページ　予想テキストファイル：" + textFile);
+            System.Console.WriteLine("ロードページ　予想CSVファイル：" + csvFile);
+
+            Actions.LoadPageText(form1, textFile);
+
+            Actions.LoadPageCsv(form1, csvFile);
 
             if (!log_Reports.Successful)
             {
@@ -214,8 +243,13 @@ namespace TreeEditor
             tree--;
         }
 
-        public static void Save(Form1 form1)
+        public static void SavePage(Form1 form1)
         {
+            System.Console.WriteLine("セーブページ　予想プロジェクト名：" + form1.UiMain1.Contents.ProjectName);
+            System.Console.WriteLine("セーブページ　予想ツリーファイル：" + form1.UiMain1.GetTreeCsvFileName(form1.UiMain1.Contents.ProjectName, false));
+            System.Console.WriteLine("セーブページ　予想テキストファイル：" + form1.UiMain1.Contents.TextFile);
+            System.Console.WriteLine("セーブページ　予想CSVファイル：" + form1.UiMain1.Contents.CsvFile);
+
             try
             {
                 //━━━━━
@@ -257,11 +291,12 @@ namespace TreeEditor
                 sb.Append("EOF,,,,,,,,");
                 sb.Append(Environment.NewLine);
 
-                System.Console.WriteLine("ツリー書出し：" + sb.ToString());
+                string contents = sb.ToString();
+                System.Console.WriteLine("セーブ　予想ツリー：" + contents);
 
                 File.WriteAllText(
-                    form1.UiMain1.GetTreeCsvFileName(form1.UiMain1.ProjectName, false),
-                    sb.ToString(),
+                    form1.UiMain1.GetTreeCsvFileName(form1.UiMain1.Contents.ProjectName, false),
+                    contents,
                     Encoding.GetEncoding("Shift_JIS")
                     );
             }
@@ -271,18 +306,20 @@ namespace TreeEditor
             }
 
 
-            if (File.Exists(form1.UiMain1.NodeFilePath))
+            if (File.Exists(form1.UiMain1.Contents.TextFile))
             {
                 //━━━━━
                 //テキスト書出し
                 //━━━━━
-                File.WriteAllText(form1.UiMain1.NodeFilePath, form1.UiMain1.UiTextside1.TextareaText, Encoding.GetEncoding("Shift_JIS"));
-                form1.UiMain1.NodeFileText = form1.UiMain1.UiTextside1.TextareaText;
+
+                System.Console.WriteLine("セーブ　予想テキスト：" + form1.UiMain1.UiTextside1.TextareaText);
+                File.WriteAllText(form1.UiMain1.Contents.TextFile, form1.UiMain1.UiTextside1.TextareaText, Encoding.GetEncoding("Shift_JIS"));
+                form1.UiMain1.Contents.TextNow(form1.UiMain1.Contents.TextFile, form1.UiMain1.UiTextside1.TextareaText);
                 form1.UiMain1.TestChangeText();
             }
             else
             {
-                MessageBox.Show(form1, form1.UiMain1.NodeFilePath, "ノードTXTファイル[" + form1.UiMain1.NodeFilePath + "]が無い");
+                MessageBox.Show(form1, form1.UiMain1.Contents.TextFile, "ノードTXTファイル[" + form1.UiMain1.Contents.TextFile + "]が無い");
             }
 
 
@@ -291,7 +328,7 @@ namespace TreeEditor
                 //━━━━━
                 //画像情報書出し
                 //━━━━━
-                if ("" != form1.UiMain1.CsvFilePath)
+                if ("" != form1.UiMain1.Contents.CsvFile)
                 {
                     StringBuilder sb = new StringBuilder();
                     int autoNum = 0;
@@ -328,20 +365,24 @@ namespace TreeEditor
                     sb.Append("EOF,,,,,");
                     sb.Append(Environment.NewLine);
 
-                    System.Console.WriteLine("CSVセーブ内容：" + sb.ToString());
-                    System.Console.WriteLine("form1.UiMain1.CsvFilePath：" + form1.UiMain1.CsvFilePath);
+                    string contents = sb.ToString();
+                    System.Console.WriteLine("セーブ　予想CSV：" + contents);
+
                     File.WriteAllText(
-                        form1.UiMain1.CsvFilePath,
-                        sb.ToString(),
+                        form1.UiMain1.Contents.CsvFile,
+                        contents,
                         Encoding.GetEncoding("Shift_JIS")
                         );
+                    form1.UiMain1.Contents.IsChangedResource = false;
+                    form1.UiMain1.TestChangeText();
+                    form1.UiMain1.Contents.CsvNow(form1.UiMain1.Contents.CsvFile, contents);
                 }
                 else
                 {
-                    System.Console.WriteLine("form1.UiMain1.CsvFilePathが未指定。");
+                    MessageBox.Show(form1,"form1.UiMain1.CsvFilePathが未指定。","エラー");
                 }
 
-                System.Console.WriteLine("セーブ： [" + form1.UiMain1.NodeFilePath + "]　[" + form1.UiMain1.CsvFilePath + "]");
+                System.Console.WriteLine("セーブ： [" + form1.UiMain1.Contents.TextFile + "]　[" + form1.UiMain1.Contents.CsvFile + "]");
             }
             catch (Exception)
             {
@@ -356,5 +397,89 @@ namespace TreeEditor
             //}
         }
 
+
+        /// <summary>
+        /// タイマーによるバックアップを取ります。起動時にも使われます。
+        /// </summary>
+        public static void Buckup(UiMain uiMain)
+        {
+            //━━━━━
+            // ツリーCSV
+            //━━━━━
+            try
+            {
+                //コピー先ディレクトリー
+                string file = uiMain.GetTreeCsvFileName(uiMain.Contents.ProjectName, true);
+                string dir = Path.GetDirectoryName(file);
+                System.Console.WriteLine("ツリー：file[" + file + "]　[" + dir + "]");
+
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+
+                File.Copy(
+                    uiMain.GetTreeCsvFileName(uiMain.Contents.ProjectName, false),
+                    file,
+                    true
+                    );
+            }
+            catch (Exception exc)
+            {
+                System.Console.WriteLine("ツリーCSVのバックアップに失敗　[" + uiMain.GetTreeCsvFileName(uiMain.Contents.ProjectName, false) + "]→[" + uiMain.GetTreeCsvFileName(uiMain.Contents.ProjectName, true) + "]　：" + exc.Message);
+            }
+
+            //━━━━━
+            // テキストTXT
+            //━━━━━
+            try
+            {
+                //コピー先ディレクトリー
+                string file = uiMain.GetTextFileName(uiMain.Contents.ProjectName, uiMain.UiTextside1.NodeNameTxt1.Text, true);
+                string dir = Path.GetDirectoryName(file);
+                System.Console.WriteLine("テキスト：file[" + file + "]　[" + dir + "]");
+
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+
+                File.Copy(
+                    uiMain.GetTextFileName(uiMain.Contents.ProjectName, uiMain.UiTextside1.NodeNameTxt1.Text, false),
+                    file,
+                    true
+                    );
+            }
+            catch (Exception exc)
+            {
+                System.Console.WriteLine("テキストTXTのバックアップに失敗　[" + uiMain.GetTextFileName(uiMain.Contents.ProjectName, uiMain.UiTextside1.NodeNameTxt1.Text, false) + "]→[" + uiMain.GetTextFileName(uiMain.Contents.ProjectName, uiMain.UiTextside1.NodeNameTxt1.Text, true) + "]　：" + exc.Message);
+            }
+
+            //━━━━━
+            // リソースCSV
+            //━━━━━
+            try
+            {
+                //コピー先ディレクトリー
+                string file = uiMain.GetResourceCsvFileName(uiMain.Contents.ProjectName, uiMain.UiTextside1.NodeNameTxt1.Text, true);
+                string dir = Path.GetDirectoryName(file);
+                System.Console.WriteLine("リソース：file[" + file + "]　[" + dir + "]");
+
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+
+                File.Copy(
+                    uiMain.GetResourceCsvFileName(uiMain.Contents.ProjectName, uiMain.UiTextside1.NodeNameTxt1.Text, false),
+                    file,
+                    true
+                    );
+            }
+            catch (Exception exc)
+            {
+                System.Console.WriteLine("リソースCSVのバックアップに失敗　[" + uiMain.GetResourceCsvFileName(uiMain.Contents.ProjectName, uiMain.UiTextside1.NodeNameTxt1.Text, false) + "]→[" + uiMain.GetResourceCsvFileName(uiMain.Contents.ProjectName, uiMain.UiTextside1.NodeNameTxt1.Text, true) + "]　：" + exc.Message);
+            }
+        }
     }
 }

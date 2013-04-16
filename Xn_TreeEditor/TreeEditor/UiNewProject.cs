@@ -21,6 +21,15 @@ namespace TreeEditor
 
         private void UiNewProject_Load(object sender, EventArgs e)
         {
+
+            Form1 form1 = (Form1)((NewProjectDialog)this.ParentForm).Owner;
+
+            //━━━━━
+            //今使用中のフォルダー
+            //━━━━━
+            this.currentTxt.Text = form1.UiMain1.Contents.ProjectName;
+
+
             try
             {
                 //━━━━━

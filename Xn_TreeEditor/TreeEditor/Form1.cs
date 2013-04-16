@@ -68,7 +68,7 @@ namespace TreeEditor
             if (e.Control && Keys.S == e.KeyCode)
             {
                 System.Console.WriteLine("セーブしたい。");
-                Actions.Save(this);
+                Actions.SavePage(this);
             }
             else if (e.Control && Keys.Z == e.KeyCode)
             {
