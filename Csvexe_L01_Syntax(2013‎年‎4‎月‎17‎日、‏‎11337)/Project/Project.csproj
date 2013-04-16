@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{47BE625D-1C08-4961-BD9D-D1B93F7E8D21}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Xenon.Syntax</RootNamespace>
+    <AssemblyName>Csvexe_L01_Syntax</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CSharp_Impl\300_Configurationtree\Configuration_NodeImpl.cs" />
+    <Compile Include="CSharp_Interface\100_Masterdata\Global.cs" />
+    <Compile Include="CSharp_Interface\100_Masterdata\Utility_Hitcount.cs" />
+    <Compile Include="CSharp_Interface\300_Configuration\Configuration_Node.cs" />
+    <Compile Include="CSharp_Interface\300_Configuration\EnumConfiguration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CSharp_Impl\200_Log1\Log_MethodImpl.cs" />
+    <Compile Include="CSharp_Impl\300_Configurationtree\Dictionary_Configurationtree_StringImpl.cs" />
+    <Compile Include="CSharp_Impl\200_Log1\Log_RecordCallstackImpl.cs" />
+    <Compile Include="CSharp_Impl\900_Utility\Utility_Expression_Node_String.cs" />
+    <Compile Include="CSharp_Interface\300_Configuration\PmName.cs" />
+    <Compile Include="CSharp_Interface\503_Expression_Function\ConfigurationtreeToFunction.cs" />
+    <Compile Include="CSharp_Interface\503_Expression_Function\Expression_Node_Function.cs" />
+    <Compile Include="CSharp_Interface\100_Masterdata\EnumEventhandler.cs" />
+    <Compile Include="CSharp_Interface\503_Expression_Function\Functionlist.cs" />
+    <Compile Include="CSharp_Interface\503_Expression_Function\Functionexecutable.cs" />
+    <Compile Include="CSharp_Interface\200_Log1\Log_RecordCallstack.cs" />
+    <Compile Include="CSharp_Interface\200_Log1\Log_Method.cs" />
+    <Compile Include="CSharp_Impl\300_Configurationtree\List_Configurationtree_NodeImpl.cs" />
+    <Compile Include="CSharp_Impl\501_Expression_String\FunctionparametersetImpl.cs" />
+    <Compile Include="CSharp_Impl\501_Expression_String\List_Expression_Node_StringImpl.cs" />
+    <Compile Include="CSharp_Impl\501_Expression_String\Dictionary_Expression_Node_StringImpl.cs" />
+    <Compile Include="CSharp_Impl\501_Expression_String\Expression_Node_StringImpl.cs" />
+    <Compile Include="CSharp_Impl\501_Expression_String\Expression_Leaf_StringImpl.cs" />
+    <Compile Include="CSharp_Impl\502_Expression_P1p\Expression_TexttemplateP1pImpl.cs" />
+    <Compile Include="CSharp_Impl\502_Expression_P1p\Utility_TexttemplateP1p.cs" />
+    <Compile Include="CSharp_Impl\502_Expression_P1p\Builder_TexttemplateP1pImpl.cs" />
+    <Compile Include="CSharp_Impl\200_Log1\Log_CallstackImpl.cs" />
+    <Compile Include="CSharp_Impl\800_Log2\Log_RecordReportsImpl.cs" />
+    <Compile Include="CSharp_Impl\800_Log2\Log_ReportsImpl.cs" />
+    <Compile Include="CSharp_Impl\200_Log1\Log_StopwatchImpl.cs" />
+    <Compile Include="CSharp_Interface\200_Log1\Log_Callstack.cs" />
+    <Compile Include="CSharp_Interface\800_Log2\Log_RecordReports.cs" />
+    <Compile Include="CSharp_Interface\100_Masterdata\EnumReport.cs" />
+    <Compile Include="CSharp_Interface\200_Log1\Log_Stopwatch.cs" />
+    <Compile Include="CSharp_Interface\800_Log2\Log_Reports.cs" />
+    <Compile Include="CSharp_Interface\100_Masterdata\EnumHitcount.cs" />
+    <Compile Include="CSharp_Interface\300_Configuration\List_Configurationtree_Node.cs" />
+    <Compile Include="CSharp_Impl\300_Configurationtree\Configurationtree_NodeFilepathImpl.cs" />
+    <Compile Include="CSharp_Impl\300_Configurationtree\Util_Filepath.cs" />
+    <Compile Include="CSharp_Impl\200_Log1\Log_TextIndentedImpl.cs" />
+    <Compile Include="CSharp_Impl\300_Configurationtree\Configurationtree_NodeImpl.cs" />
+    <Compile Include="CSharp_Impl\501_Expression_String\Expression_Node_FilepathImpl.cs" />
+    <Compile Include="CSharp_Impl\400_Number\IntegerRangeImpl.cs" />
+    <Compile Include="CSharp_Impl\400_Number\IntegerRangesImpl.cs" />
+    <Compile Include="CSharp_Impl\400_Number\ConfigurationTo_IntegerRanges.cs" />
+    <Compile Include="CSharp_Info\Info_Syntax.cs" />
+    <Compile Include="CSharp_Interface\300_Configuration\Dictionary_Configurationtree_String.cs" />
+    <Compile Include="CSharp_Interface\501_Expression_String\Functionparameterset.cs" />
+    <Compile Include="CSharp_Interface\501_Expression_String\Expression_Node_Filepath.cs" />
+    <Compile Include="CSharp_Interface\300_Configuration\Configurationtree_NodeFilepath.cs" />
+    <Compile Include="CSharp_Interface\200_Log1\Log_TextIndented.cs" />
+    <Compile Include="CSharp_Interface\300_Configuration\Configurationtree_Node.cs" />
+    <Compile Include="CSharp_Interface\400_Number\IntegerRange.cs" />
+    <Compile Include="CSharp_Interface\400_Number\IntegerRanges.cs" />
+    <Compile Include="CSharp_Interface\501_Expression_String\List_Expression_Node_String.cs" />
+    <Compile Include="CSharp_Interface\501_Expression_String\Expression_Node_String.cs" />
+    <Compile Include="CSharp_Interface\501_Expression_String\Dictionary_Expression_Node_String.cs" />
+    <Compile Include="CSharp_Interface\501_Expression_String\Expression_Leaf_String.cs" />
+    <Compile Include="CSharp_Interface\502_Expression_P1p\Builder_TexttemplateP1p.cs" />
+    <Compile Include="CSharp_Interface\501_Expression_String\Expressionv_Elem99.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSharp_Impl\200_Log1\%40説明200.txt" />
+    <Content Include="CSharp_Impl\300_Configurationtree\%40説明300.txt" />
+    <Content Include="CSharp_Impl\400_Number\%40説明400.txt" />
+    <Content Include="CSharp_Impl\501_Expression_String\%40説明501.txt" />
+    <Content Include="CSharp_Impl\502_Expression_P1p\%40説明502.txt" />
+    <Content Include="CSharp_Impl\800_Log2\%40説明.txt" />
+    <Content Include="CSharp_Impl\900_Utility\%40説明.txt" />
+    <Content Include="CSharp_Info\ソースコード整理状況.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

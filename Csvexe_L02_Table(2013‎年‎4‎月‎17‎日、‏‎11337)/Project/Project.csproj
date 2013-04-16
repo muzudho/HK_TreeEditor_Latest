@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E681D5AE-E452-444E-890A-961849F3FF3F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Xenon.Table</RootNamespace>
+    <AssemblyName>Csvexe_L02_Table</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Csvexe_L01_Syntax">
+      <HintPath>..\..\Csvexe_L01_Syntax\Project\bin\Debug\Csvexe_L01_Syntax.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CSharp_Impl\200_Cell\Utility_HumaninputValue.cs" />
+    <Compile Include="CSharp_Impl\300_Table\RecordFielddefImpl.cs" />
+    <Compile Include="CSharp_Impl\300_Table\Record_HumaninputImpl.cs" />
+    <Compile Include="CSharp_Interface\100_Masterdata\EnumOperationIfErrorvalue.cs" />
+    <Compile Include="CSharp_Impl\300_Table\select\Judge_FieldBoolImpl.cs" />
+    <Compile Include="CSharp_Impl\300_Table\select\Judge_FieldIntImpl.cs" />
+    <Compile Include="CSharp_Impl\300_Table\select\Judge_FieldStringImpl.cs" />
+    <Compile Include="CSharp_Impl\300_Table\Format_TableImpl.cs" />
+    <Compile Include="CSharp_Impl\400_Utility_Table\Utility_Row.cs" />
+    <Compile Include="CSharp_Impl\510_Csv_To\CsvTo_Table_RegularImpl.cs" />
+    <Compile Include="CSharp_Impl\510_Csv_To\CsvTo_Table_ReverseImpl.cs" />
+    <Compile Include="CSharp_Impl\510_Csv_To\CsvTo_Table_ReverseAllIntsImpl.cs" />
+    <Compile Include="CSharp_Impl\510_Csv_To\CsvTo_ListImpl.cs" />
+    <Compile Include="CSharp_Impl\300_Table\Request_ReadsTableImpl.cs" />
+    <Compile Include="CSharp_Impl\510_Csv_To\CsvTo_ListArrayImpl.cs" />
+    <Compile Include="CSharp_Impl\500_CsvParser\CsvLineParserImpl.cs" />
+    <Compile Include="CSharp_Impl\520_To_Csv\ExceptedFieldsImpl.cs" />
+    <Compile Include="CSharp_Impl\520_To_Csv\ToCsv_Table_Humaninput_RowColRegularImpl.cs" />
+    <Compile Include="CSharp_Impl\520_To_Csv\ToCsv_Table_Humaninput_RowColReversedImpl.cs" />
+    <Compile Include="CSharp_Impl\500_CsvParser\CsvWriterImpl.cs" />
+    <Compile Include="CSharp_Impl\600_Utility_Table\Utility_Table.cs" />
+    <Compile Include="CSharp_Impl\700_RecordSet\RecordconditionImpl.cs" />
+    <Compile Include="CSharp_Impl\700_RecordSet\RecordSetImpl.cs" />
+    <Compile Include="CSharp_Impl\700_RecordSet\SelectstatementImpl.cs" />
+    <Compile Include="CSharp_Impl\800_PipeStr\FieldToParameters.cs" />
+    <Compile Include="CSharp_Impl\800_PipeStr\PipeSeparatedString_DataTableImpl.cs" />
+    <Compile Include="CSharp_Impl\800_PipeStr\Fieldkey.cs" />
+    <Compile Include="CSharp_Impl\900_Judge\SelectPerformerImpl.cs" />
+    <Compile Include="CSharp_Info\Info_Table.cs" />
+    <Compile Include="CSharp_Interface\100_Masterdata\EnumTypeFielddefinition.cs" />
+    <Compile Include="CSharp_Interface\300_Table\Fielddef.cs" />
+    <Compile Include="CSharp_Interface\300_Table\RecordFielddef.cs" />
+    <Compile Include="CSharp_Interface\300_Table\Record_Humaninput.cs" />
+    <Compile Include="CSharp_Interface\300_Table\Cell.cs" />
+    <Compile Include="CSharp_Impl\200_Cell\AbstractCellImpl.cs" />
+    <Compile Include="CSharp_Impl\200_Cell\BoolCellImpl.cs" />
+    <Compile Include="CSharp_Impl\200_Cell\IntCellImpl.cs" />
+    <Compile Include="CSharp_Impl\200_Cell\StringCellImpl.cs" />
+    <Compile Include="CSharp_Impl\400_Utility_Table\Utility_TableViewImpl.cs" />
+    <Compile Include="CSharp_Impl\300_Table\Table_HumaninputImpl.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CSharp_Impl\300_Table\FielddefImpl.cs" />
+    <Compile Include="CSharp_Impl\510_Csv_To\CsvTo_DataTableImpl.cs" />
+    <Compile Include="CSharp_Impl\510_Csv_To\CsvTo_TableImpl.cs" />
+    <Compile Include="CSharp_Interface\300_Table\Table_Humaninput.cs" />
+    <Compile Include="CSharp_Interface\300_Table\Format_Table.cs" />
+    <Compile Include="CSharp_Interface\500_Csv\Request_ReadsTable.cs" />
+    <Compile Include="CSharp_Impl\520_To_Csv\ToCsv_Table_Humaninput_Impl.cs" />
+    <Compile Include="CSharp_Interface\100_Masterdata\EnumLogic.cs" />
+    <Compile Include="CSharp_Interface\100_Masterdata\EnumOpe.cs" />
+    <Compile Include="CSharp_Interface\700_RecordSet\Recordcondition.cs" />
+    <Compile Include="CSharp_Interface\700_RecordSet\RecordSet.cs" />
+    <Compile Include="CSharp_Interface\700_RecordSet\Selectstatement.cs" />
+    <Compile Include="CSharp_Interface\800_PipeStr\PipeSeparatedString.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSharp_Impl\200_Cell\%40文字列や空白を持つint型とかが欲しくて独自実装した手入力セルの型。.txt" />
+    <Content Include="CSharp_Impl\%40テーブルの使い方.txt" />
+    <Content Include="CSharp_Impl\400_Utility_Table\%40これは、テーブル・ユーティリティー.txt" />
+    <Content Include="CSharp_Impl\500_CsvParser\%40これは、CSV読書.txt" />
+    <Content Include="CSharp_Impl\800_PipeStr\%40これは、パイプ区切り文字列.txt" />
+    <Content Include="CSharp_Impl\800_PipeStr\%40例：％1％：％2％｜ID｜NAME.txt" />
+    <Content Include="CSharp_Info\ソースコード整理状況.txt" />
+    <Content Include="CSharp_Interface\500_Csv\%40これは、CSV読書.txt" />
+    <Content Include="CSharp_Interface\800_PipeStr\%40これは、パイプ区切り文字列.txt" />
+    <Content Include="CSharp_Interface\800_PipeStr\%40例：％1％：％2％｜ID｜NAME.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,13 @@
+﻿説明
+────────────────────
+
+エラーを報告するメッセージを作ります。
+例えば、
+
+　　実行経路ヒント：
+　　　*＜Xn_L11_NorenImpl:Fc_FriFrame02#Execute4_OnOEa ＞*＜Xn_L11_NorenImpl:Fc_FriFrame02#E_ExecuteMain ＞*＜Xn_L11_NorenImpl:E_SysDefFnc_ExFrame02Impl#E_ExecuteMain ＞*＜Xn_L11_NorenImpl:Fc_FriFrame01#Execute4_OnPrjSelected ＞*＜Xn_L11_NorenImpl:Fc_FriFrame01#E_ExecuteMain ＞*＜Xn_L11_NorenImpl:E_Sa_Frame01Impl#E_ExecuteMain ＞*＜Xn_L11_NorenImpl:Fc_SystemActionImpl#Execute4_OnWrRhn ＞*＜Xn_L11_NorenImpl:Fc_SystemActionImpl#E_ExecuteMain ＞*＜Xn_L11_NorenImpl:E_Sa30Impl#E_ExecuteMain ＞*＜Xn_L11_NorenImpl:E_Sa30Impl#Perform2 ＞*＜Xn_L09_OpyopyoImpl:MoFormsImpl#SetupFormAndLoadFcnfs ＞*＜Xn_L09_OpyopyoImpl:MoFormsImpl#P2_CreateForm ＞*＜Xn_L09_OpyopyoImpl:MoFormsImpl#CreateForm ＞*＜Xn_L10_FormImpl:ControlCreator1Impl#Create＞
+
+といった文章を作ります。
+
+
+EOF
